@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -32,7 +31,7 @@ export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
 
   // Handle Data of user logged
-  const [cookieToken, setCookieToken, removeCookieToken] = useCookies([
+  const [, setCookieToken, removeCookieToken] = useCookies([
     "token",
     "remember",
   ]);
@@ -75,7 +74,6 @@ export default function SignUp() {
         setLoading(false);
         const errors = err.response?.data || []; // Array of errors
         const notFoundUser = err.response.data?.message;
-
         if (errors.errors) {
           errors.errors.map((error) => setMainError(`${error.msg}`));
         } else {
