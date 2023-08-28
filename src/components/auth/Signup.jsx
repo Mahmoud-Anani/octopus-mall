@@ -34,6 +34,8 @@ export default function SignUp() {
   const [, setCookieToken, removeCookieToken] = useCookies([
     "token",
     "remember",
+    "slug",
+    "role",
   ]);
 
   const handleSubmit = async (event) => {
@@ -68,6 +70,11 @@ export default function SignUp() {
         rememberme.length > 1
           ? setCookieToken("remember", `true`)
           : setCookieToken("remember", `false`);
+        if (rememberme.length > 1) {
+          setCookieToken("token", `Bearer ${res.data.token}`);
+          setCookieToken("slug", `${res.data.data.slug}`);
+          setCookieToken("role", `${res.data.data.role}`);
+        }
         setCookieToken("token", `Bearer ${res.data.token}`);
       })
       .catch((err) => {
@@ -206,7 +213,7 @@ export default function SignUp() {
               <Grid item>
                 <button
                   className={`text-blue-600 visited:text-purple-600 bg-transparent border-0 hover:text-blue-800 p-0`}
-                  onClick={() => navigetor("/sign-in")}
+                  onClick={() => navigetor("/auth/sign-in")}
                 >
                   Already have an account? Sign in
                 </button>
