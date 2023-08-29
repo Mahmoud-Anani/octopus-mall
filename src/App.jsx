@@ -8,6 +8,7 @@ import ForgotPassword from "./components/auth/Forgot-Password/ForgotPassword";
 import ResetPassword from "./components/auth/Forgot-Password/ResetPassword";
 import VerifyCodePassword from "./components/auth/Forgot-Password/VerifyCodePassword";
 import MainHome from "./components/Home/MainHome";
+import Discounts from "./components/Home/Discounts";
 
 function App() {
 
@@ -18,6 +19,10 @@ function App() {
         path="/"
         element={
           <div className="bg-[#DEE2E7]">
+            <MainHome />
+            <div>
+            <Discounts />
+            </div>
             <MainHome />
           </div>
         }

@@ -182,6 +182,7 @@ function Navbar() {
   const [fullUserName, setfullUserName] = React.useState("");
   React.useEffect(() => {
     getCategorys();
+    getProducts();
     // handle auth user
     if (getCookios.slug) {
       const fullUserNameArray = getCookios.slug.split("-");
