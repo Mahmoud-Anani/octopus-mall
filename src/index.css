@@ -1,10 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 body{
   height: 1002vh;
-}
+} */
+
 
 /* 
 :root {

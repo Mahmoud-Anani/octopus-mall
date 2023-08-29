@@ -1,6 +1,4 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React, { useState } from "react";
 import "./App.css";
 // Routers
 import { Routes, Route, Link } from "react-router-dom";
@@ -9,11 +7,9 @@ import SignUp from "./components/auth/Signup";
 import ForgotPassword from "./components/auth/Forgot-Password/ForgotPassword";
 import ResetPassword from "./components/auth/Forgot-Password/ResetPassword";
 import VerifyCodePassword from "./components/auth/Forgot-Password/VerifyCodePassword";
-import { ToastContainer } from "react-toastify";
 import MainHome from "./components/Home/MainHome";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <Routes>
@@ -21,9 +17,9 @@ function App() {
       <Route
         path="/"
         element={
-          <>
-            <MainHome/>
-          </>
+          <div className="bg-[#DEE2E7]">
+            <MainHome />
+          </div>
         }
       />
       <Route

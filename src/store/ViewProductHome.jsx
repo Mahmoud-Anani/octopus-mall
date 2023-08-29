@@ -5,4 +5,9 @@ const products = atom({
   default: [],
 });
 
-export { products };
+const storeCategorys = atom({
+  key: "categorys",
+  default: [],
+});
+
+export { products, storeCategorys };

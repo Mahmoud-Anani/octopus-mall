@@ -5,7 +5,7 @@ import { Box, Container, CssBaseline, MenuItem, Select } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { products } from "../../store/ViewProductHome";
+import { products, storeCategorys } from "../../store/ViewProductHome";
 import { useCookies } from "react-cookie";
 
 import List from "@mui/material/List";
@@ -166,7 +166,8 @@ function Navbar() {
     }
   };
   // Get Categorys
-  const [categorys, setcategorys] = React.useState([]);
+  // const [categorys, setcategorys] = React.useState([]);
+  const [categorys, setcategorys] = useRecoilState(storeCategorys);
   const getCategorys = async () => {
     return await axios
       .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/category?limit=100`)
