@@ -10,6 +10,7 @@ import ForgotPassword from "./components/auth/Forgot-Password/ForgotPassword";
 import ResetPassword from "./components/auth/Forgot-Password/ResetPassword";
 import VerifyCodePassword from "./components/auth/Forgot-Password/VerifyCodePassword";
 import { ToastContainer } from "react-toastify";
+import MainHome from "./components/Home/MainHome";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,7 +22,7 @@ function App() {
         path="/"
         element={
           <>
-            <p className="text-center">Home Page</p>
+            <MainHome/>
           </>
         }
       />

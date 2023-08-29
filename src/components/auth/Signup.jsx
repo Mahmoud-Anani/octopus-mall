@@ -68,14 +68,13 @@ export default function SignUp() {
         // Set Token
         navigetor("/");
         rememberme.length > 1
-          ? setCookieToken("remember", `true`)
-          : setCookieToken("remember", `false`);
-        if (rememberme.length > 1) {
-          setCookieToken("token", `Bearer ${res.data.token}`);
-          setCookieToken("slug", `${res.data.data.slug}`);
-          setCookieToken("role", `${res.data.data.role}`);
-        }
-        setCookieToken("token", `Bearer ${res.data.token}`);
+          ? setCookieToken("remember", `true`, { path: "/" })
+          : setCookieToken("remember", `false`, { path: "/" });
+        // set basecs data
+        setCookieToken("token", `Bearer ${res.data.token}`, { path: "/" });
+        setCookieToken("slug", `${res.data.data.slug}`, { path: "/" });
+        setCookieToken("role", `${res.data.data.role}`, { path: "/" });
+        setCookieToken("userImg", `${res.data.data.userImg}`, { path: "/" });
       })
       .catch((err) => {
         setLoading(false);
@@ -197,7 +196,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <div
-              className={`bg-red-500 text-white rounded-t-lg rounded-b-lg  `}
+              className={`bg-red-500 text-white rounded-t-lg rounded-b-lg text-center `}
             >
               {mainError}
             </div>
@@ -221,7 +220,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

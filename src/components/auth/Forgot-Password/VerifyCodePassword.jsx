@@ -106,7 +106,7 @@ export default function VerifyCodePassword() {
               autoFocus
             />
             <div
-              className={`bg-red-500 text-white rounded-t-lg rounded-b-lg  `}
+              className={`bg-red-500 text-white rounded-t-lg rounded-b-lg text-center `}
             >
               {mainError}
             </div>

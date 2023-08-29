@@ -26,7 +26,12 @@ export default function SignIn() {
   const navigetor = useNavigate();
 
   // Handle Data of user logged
-  const [cookieToken, setCookieToken] = useCookies(["token", "remember", "slug",'role']);
+  const [cookieToken, setCookieToken] = useCookies([
+    "token",
+    "remember",
+    "slug",
+    "role",
+  ]);
   React.useEffect(() => {
     cookieToken.token !== undefined && navigetor("/");
   }, [cookieToken]);
@@ -39,8 +44,8 @@ export default function SignIn() {
     e.preventDefault();
     setLoading(true);
     const data = new FormData(e.currentTarget);
-    const email = data.get("email") || "";
-    const password = data.get("password") || "";
+    const email = data.get("email").trim() || "";
+    const password = data.get("password").trim() || "";
     const rememberme = data.get("rememberme") || "";
     if (email === "" || password === "") {
       setLoading(false);
@@ -56,13 +61,17 @@ export default function SignIn() {
         // Set Token
         navigetor("/");
         rememberme.length > 1
-          ? setCookieToken("remember", `true`)
-          : setCookieToken("remember", `false`);
-        if (rememberme.length > 1 ) {
-          setCookieToken("token", `Bearer ${res.data.token}`);
-          setCookieToken("slug", `${res.data.data.slug}`);
-          setCookieToken("role", `${res.data.data.role}`);
-        }
+          ? setCookieToken("remember", `true`, { path: "/" })
+          : setCookieToken("remember", `false`, { path: "/" });
+        // set basecs data  
+          setCookieToken("token", `Bearer ${res.data.token}`, { path: "/" });
+          setCookieToken("slug", `${res.data.data.slug}`, { path: "/" });
+          setCookieToken("role", `${res.data.data.role}`, { path: "/" });
+          setCookieToken(
+            "userImg",
+            { userImg: res.data.data.userImg },
+            { path: "/" }
+          );
       })
       .catch((err) => {
         setLoading(false);
@@ -128,7 +137,7 @@ export default function SignIn() {
               autoComplete="current-password"
             />
             <div
-              className={`bg-red-500 text-white rounded-t-lg rounded-b-lg  `}
+              className={`bg-red-500 text-white rounded-t-lg rounded-b-lg text-center `}
             >
               {mainError}
             </div>
@@ -166,7 +175,7 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 5, mb: 2 }} />
       </Container>
     </ThemeProvider>
   );

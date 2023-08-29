@@ -1,27 +1,8 @@
 import { atom } from "recoil";
 
 const products = atom({
-  key: "products",
-  default: [], 
+  key: "productsSearch",
+  default: [],
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export {
-    products
-} 
+export { products };
