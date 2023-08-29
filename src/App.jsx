@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 // Routers
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import SignIn from "./components/auth/signin";
 import SignUp from "./components/auth/Signup";
 import ForgotPassword from "./components/auth/Forgot-Password/ForgotPassword";
