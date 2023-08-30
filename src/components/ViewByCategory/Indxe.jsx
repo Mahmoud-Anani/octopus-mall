@@ -2,7 +2,7 @@ import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { producsDicountsState, products } from "../../store/ViewProductHome";
+import { products } from "../../store/ViewProductHome";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
