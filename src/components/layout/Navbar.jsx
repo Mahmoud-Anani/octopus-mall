@@ -5,7 +5,7 @@ import { Box, Container, CssBaseline, MenuItem, Select } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { products, storeCategorys } from "../../store/ViewProductHome";
+import { loadingState, products, storeCategorys } from "../../store/ViewProductHome";
 import { useCookies } from "react-cookie";
 
 import List from "@mui/material/List";
@@ -111,6 +111,8 @@ function changeUserIcon() {
 }
 
 function Navbar() {
+    const [loading, setloading] = useRecoilState(loadingState);
+
   // const [keywordSearch, setKeywordSearch] = React.useState("");
   const [producs, setProducts] = useRecoilState(products);
   // Get Poducts
@@ -244,7 +246,7 @@ function Navbar() {
     <ThemeProvider theme={defaultTheme}>
       <Container component={"nav"} maxWidth={"xl"}>
         <CssBaseline />
-        <header className={`bg-[#FFF] `}>
+        <header className={`bg-[#FFF] ${loading&&"hidden"} `}>
           <nav className="flex items-center flex-wrap justify-between py-3 gap-5  ">
             {/* sidbar mubile */}
             {
@@ -728,12 +730,12 @@ function Navbar() {
             {/* Links */}
             <div className={"flex gap-5 justify-center"}>
               {[
-                {id:1, name: "Home", route: "/" },
-                {id:2, name: "Categories", route: "/categories" },
-                {id:3, name: "Favorites", route: "/favorites" },
-                {id:4, name: "Orders", route: "/orders" },
-                {id:5, name: "Contact us", route: "/contact" },
-                {id:6, name: "About", route: "/about" },
+                { id: 1, name: "Home", route: "/" },
+                { id: 2, name: "Categories", route: "/categories" },
+                { id: 3, name: "Favorites", route: "/favorites" },
+                { id: 4, name: "Orders", route: "/orders" },
+                { id: 5, name: "Contact us", route: "/contact" },
+                { id: 6, name: "About", route: "/about" },
               ].map((link) => {
                 return (
                   <Link

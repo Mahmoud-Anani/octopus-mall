@@ -20,7 +20,7 @@ function Discounts() {
       (item) => item._id === value && setProducsDicounts([...producsDicounts,item])
     );
   });
-console.log(producsDicounts);
+// console.log(producsDicounts);
   // handle time
   const [currentTime, setCurrentTime] = React.useState(new Date());
 

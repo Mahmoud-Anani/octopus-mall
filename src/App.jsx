@@ -9,22 +9,42 @@ import ResetPassword from "./components/auth/Forgot-Password/ResetPassword";
 import VerifyCodePassword from "./components/auth/Forgot-Password/VerifyCodePassword";
 import MainHome from "./components/Home/MainHome";
 import Discounts from "./components/Home/Discounts";
+import { useRecoilState } from "recoil";
+import {
+  products,
+  storeCategorys,
+  loadingState,
+} from "./store/ViewProductHome";
 
 function App() {
-
+  const [loading, setloading] = useRecoilState(loadingState);
+  const [categorys] = useRecoilState(storeCategorys);
+  const [prducts] = useRecoilState(products);
+  React.useEffect(() => {
+    if (categorys.length > 0 && prducts.length > 0) {
+      setloading(false);
+    }
+  }, [prducts, categorys]);
   return (
     <Routes>
       <Route path="*" element={<>404</>} />
       <Route
         path="/"
         element={
-          <div className="bg-[#DEE2E7]">
-            <MainHome />
-            <div>
-            <Discounts />
+          loading ? (
+            <div
+              className={`h-[100vh] flex justify-center items-center bg-slate-800`}
+            >
+              <div className="loader"></div>
             </div>
-            <MainHome />
-          </div>
+          ) : (
+            <div className="bg-[#DEE2E7]">
+              <MainHome />
+              <div>
+                <Discounts />
+              </div>
+            </div>
+          )
         }
       />
       <Route

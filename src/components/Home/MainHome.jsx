@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay} from "swiper/modules";
 
 const defaultTheme = createTheme();
 
@@ -83,7 +83,7 @@ function MainHome() {
             className=""
           >
             <SwiperSlide
-              className={` bg-red-900 bg-cover p-10 bg-[url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80')] `}
+              className={` bg-red-900 bg-cover p-10 bg-[url('https://octopus-shop.onrender.com/disktop/1.avif')] `}
             >
               <div className="flex flex-col gap-2">
                 <p className={`text-2xl font-normal`}>Latest trending</p>
@@ -96,7 +96,7 @@ function MainHome() {
               </button>
             </SwiperSlide>
             <SwiperSlide
-              className={` bg-red-900 bg-cover p-10 bg-[url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80')] `}
+              className={` bg-red-900 bg-cover p-10 bg-[url('https://octopus-shop.onrender.com/disktop/2.avif')] `}
             >
               <div className="flex flex-col gap-2">
                 <p className={`text-2xl font-normal`}>Latest trending</p>
@@ -109,7 +109,7 @@ function MainHome() {
               </button>
             </SwiperSlide>
             <SwiperSlide
-              className={` bg-red-900 bg-cover p-10 bg-[url('https://images.unsplash.com/photo-1611353384046-8a02bac0f14d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80')] `}
+              className={` bg-red-900 bg-cover p-10 bg-[url('https://octopus-shop.onrender.com/disktop/3.avif')] `}
             >
               <div className="flex flex-col gap-2 text-white">
                 <p className={`text-2xl font-normal`}>Latest trending</p>

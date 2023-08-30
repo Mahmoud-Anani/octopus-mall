@@ -1,5 +1,12 @@
 import { atom } from "recoil";
 
+
+const loadingState = atom({
+  key: "loadingState",
+  default: true,
+});
+
+
 const products = atom({
   key: "productsSearch",
   default: [],
@@ -10,4 +17,5 @@ const storeCategorys = atom({
   default: [],
 });
 
-export { products, storeCategorys };
+
+export { products, storeCategorys, loadingState };
