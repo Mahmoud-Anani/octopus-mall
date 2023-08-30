@@ -56,7 +56,7 @@ function MainHome() {
                   <ListItemButton className="whitespace-nowrap">
                     All category
                   </ListItemButton>
-                  {categorys.slice(0, 8).map((cate) => (
+                  {categorys.slice(0, 10).map((cate) => (
                     <ListItemButton
                       className="whitespace-nowrap"
                       key={cate._id}

@@ -17,5 +17,9 @@ const storeCategorys = atom({
   default: [],
 });
 
+const producsDicountsState = atom({
+  key: "producsDicountsState",
+  default: [],
+});
 
-export { products, storeCategorys, loadingState };
+export { products, storeCategorys, loadingState, producsDicountsState };

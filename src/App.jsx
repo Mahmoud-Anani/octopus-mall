@@ -40,9 +40,8 @@ function App() {
           ) : (
             <div className="bg-[#DEE2E7]">
               <MainHome />
-              <div>
                 <Discounts />
-              </div>
+                <MainHome />
             </div>
           )
         }
