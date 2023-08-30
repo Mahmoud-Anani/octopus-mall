@@ -90,7 +90,7 @@ function MainHome() {
                 <p className={`text-3xl font-bold`}>Electronic items</p>
               </div>
               <button
-                className={`text-[#1C1C1C] bg-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
+                className={`text-[#1C1C1C] bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
               >
                 Learn more
               </button>
@@ -103,7 +103,7 @@ function MainHome() {
                 <p className={`text-3xl font-bold`}>shoe items</p>
               </div>
               <button
-                className={`text-[#1C1C1C] bg-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
+                className={`text-[#1C1C1C] bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
               >
                 Learn more
               </button>
@@ -116,7 +116,7 @@ function MainHome() {
                 <p className={`text-3xl font-bold`}>most expensive products</p>
               </div>
               <button
-                className={`text-[#1C1C1C] bg-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
+                className={`text-[#1C1C1C] bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
               >
                 Learn more
               </button>

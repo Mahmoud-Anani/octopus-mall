@@ -7,14 +7,13 @@ import SignUp from "./components/auth/Signup";
 import ForgotPassword from "./components/auth/Forgot-Password/ForgotPassword";
 import ResetPassword from "./components/auth/Forgot-Password/ResetPassword";
 import VerifyCodePassword from "./components/auth/Forgot-Password/VerifyCodePassword";
-import MainHome from "./components/Home/MainHome";
-import Discounts from "./components/Home/Discounts";
 import { useRecoilState } from "recoil";
 import {
   products,
   storeCategorys,
   loadingState,
 } from "./store/ViewProductHome";
+import HomeIndex from "./components/Home/Index";
 
 function App() {
   const [loading, setloading] = useRecoilState(loadingState);
@@ -38,11 +37,7 @@ function App() {
               <div className="loader"></div>
             </div>
           ) : (
-            <div className="bg-[#DEE2E7]">
-              <MainHome />
-                <Discounts />
-                <MainHome />
-            </div>
+            <HomeIndex />
           )
         }
       />

@@ -5,7 +5,9 @@
 body{
   height: 1002vh;
 } */
-
+* {
+  scroll-behavior: smooth;
+}
 
 /* 
 :root {
