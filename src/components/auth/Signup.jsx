@@ -75,6 +75,9 @@ export default function SignUp() {
         setCookieToken("slug", `${res.data.data.slug}`, { path: "/" });
         setCookieToken("role", `${res.data.data.role}`, { path: "/" });
         setCookieToken("userImg", `${res.data.data.userImg}`, { path: "/" });
+        setCookieToken("_id", `${res.data.data._id.tostring()}`, {
+          path: "/",
+        });
       })
       .catch((err) => {
         setLoading(false);

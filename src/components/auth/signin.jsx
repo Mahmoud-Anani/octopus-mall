@@ -62,10 +62,13 @@ export default function SignIn() {
         rememberme.length > 1
           ? setCookieToken("remember", `true`, { path: "/" })
           : setCookieToken("remember", `false`, { path: "/" });
-        // set basecs data  
+        // set basecs data
           setCookieToken("token", `Bearer ${res.data.token}`, { path: "/" });
           setCookieToken("slug", `${res.data.data.slug}`, { path: "/" });
           setCookieToken("role", `${res.data.data.role}`, { path: "/" });
+          setCookieToken("_id", `${res.data.data._id.tostring()}`, {
+            path: "/",
+          });
           setCookieToken(
             "userImg",
             { userImg: res.data.data.userImg },
