@@ -33,6 +33,7 @@ function Suppliers() {
   const handleChangeCatigorySearch = (e) => {
     setCategorySearch(e.target.value);
   };
+  console.log("getCookies.token", getCookies.token);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const dataForm = new FormData(e.currentTarget);
@@ -45,13 +46,22 @@ function Suppliers() {
     if (data.titleNeed === "") {
       return setMainError("At least enter the name of the product");
     }
-    await axios.post(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reqProduct`, {
-      titleNeed: data.titleNeed,
-      details: data.details,
-      category: data.category,
-      qauntity: data.quantity,
-      user:getCookies._id
-    });
+    await axios
+      .post(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reqProduct`,
+        {
+          titleNeed: data.titleNeed,
+          details: data.details,
+          category: data.category,
+          qauntity: data.quantity,
+          user: getCookies._id,
+        },
+        {
+          headers: { Authorization: getCookies.token},
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
