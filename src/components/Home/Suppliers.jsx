@@ -80,8 +80,7 @@ function Suppliers() {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
-                      autoFocus
-                    />
+                      />
                     <TextField
                       onChange={() => {
                         setMainError("");

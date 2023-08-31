@@ -204,6 +204,7 @@ function Navbar() {
       userImgMain = getCookios.userImg?.userImg || "";
     }
   }, [getCookios.slug, getCookios.token]);
+
   // Test fullUserName and user data
   // console.log('fullUserName',fullUserName);
 
@@ -659,7 +660,7 @@ function Navbar() {
             </Box>
             <div className={`sm:flex gap-5 mx-auto items-end hidden`}>
               {/* protofil */}
-              <button className="flex flex-col items-center">
+              <Link to={'/protofil'} className="flex flex-col items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -673,9 +674,9 @@ function Navbar() {
                   />
                 </svg>
                 <span className={`text-xs`}>Profile</span>
-              </button>
+              </Link>
               {/* Message */}
-              <button className="flex flex-col items-center">
+              <Link to={'/message'} className="flex flex-col items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -689,9 +690,9 @@ function Navbar() {
                   />
                 </svg>
                 <span className={`text-xs`}>Message</span>
-              </button>
+              </Link>
               {/* Orders */}
-              <button className="flex flex-col items-center">
+              <Link to={'/order'} className="flex flex-col items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -705,9 +706,9 @@ function Navbar() {
                   />
                 </svg>
                 <span className={`text-xs`}>Orders</span>
-              </button>
+              </Link>
               {/* My cart */}
-              <button className="flex flex-col items-center">
+              <Link to={'/cart'} className="flex flex-col items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -721,7 +722,7 @@ function Navbar() {
                   />
                 </svg>
                 <span className={`text-xs`}>My cart</span>
-              </button>
+              </Link>
             </div>
           </nav>
           <nav
