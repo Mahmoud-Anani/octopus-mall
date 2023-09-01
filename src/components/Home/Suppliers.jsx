@@ -135,7 +135,7 @@ function Suppliers() {
                   component="form"
                   onSubmit={handleSubmit}
                   noValidate
-                  sx={{ mt: 1 }}
+                  sx={{ mt: 1,padding:"0px 1rem" }}
                 >
                   <TextField
                     value={feildNeed}

@@ -42,7 +42,7 @@ function RecommendedItems() {
               <Link
                 to={`product/${pro._id}`}
                 key={pro._id}
-                className={`border-2 rounded-lg p-3 max-w-xl`}
+                className={`border-2 rounded-lg p-3 max-w-xl hover:bg-[#dad8d8] duration-300`}
               >
                 <ShowProductHome
                   key={pro._id}
