@@ -75,7 +75,7 @@ export default function SignUp() {
         setCookieToken("slug", `${res.data.data.slug}`, { path: "/" });
         setCookieToken("role", `${res.data.data.role}`, { path: "/" });
         setCookieToken("userImg", `${res.data.data.userImg}`, { path: "/" });
-        setCookieToken("_id", `${res.data.data._id.tostring()}`, {
+        setCookieToken("_id", `${res.data.data._id}`, {
           path: "/",
         });
       })
@@ -118,6 +118,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  disabled={loading}
                   onChange={() => {
                     setMainError("");
                   }}
@@ -132,6 +133,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  disabled={loading}
                   onChange={() => {
                     setMainError("");
                   }}
@@ -145,6 +147,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  disabled={loading}
                   onChange={() => {
                     setMainError("");
                   }}
@@ -158,6 +161,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  disabled={loading}
                   onChange={() => {
                     setMainError("");
                   }}
@@ -172,6 +176,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  disabled={loading}
                   onChange={() => {
                     setMainError("");
                   }}
@@ -189,6 +194,7 @@ export default function SignUp() {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      disabled={loading}
                       value="remember"
                       name="rememberme"
                       color="primary"
@@ -204,6 +210,7 @@ export default function SignUp() {
               {mainError}
             </div>
             <Button
+              disabled={loading}
               type="submit"
               fullWidth
               variant="contained"

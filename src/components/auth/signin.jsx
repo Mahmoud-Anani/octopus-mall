@@ -56,6 +56,7 @@ export default function SignIn() {
         password,
       })
       .then((res) => {
+        console.log('_id',res.data.data._id);
         setLoading(false);
         // Set Token
         navigetor("/");
@@ -66,7 +67,7 @@ export default function SignIn() {
           setCookieToken("token", `Bearer ${res.data.token}`, { path: "/" });
           setCookieToken("slug", `${res.data.data.slug}`, { path: "/" });
           setCookieToken("role", `${res.data.data.role}`, { path: "/" });
-          setCookieToken("_id", `${res.data.data._id.tostring()}`, {
+          setCookieToken("_id", `${res.data.data._id}`, {
             path: "/",
           });
           setCookieToken(
@@ -113,6 +114,7 @@ export default function SignIn() {
             sx={{ mt: 1 }}
           >
             <TextField
+              disabled={loading}
               onChange={() => {
                 setMainError("");
               }}
@@ -126,6 +128,7 @@ export default function SignIn() {
               autoFocus
             />
             <TextField
+              disabled={loading}
               onChange={() => {
                 setMainError("");
               }}
@@ -150,6 +153,7 @@ export default function SignIn() {
               label="Remember me"
             />
             <Button
+              disabled={loading}
               type="submit"
               fullWidth
               variant="contained"

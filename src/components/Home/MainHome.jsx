@@ -278,7 +278,7 @@ function MainHome() {
                     </div>
                     <p className="font-normal text-lg ">
                       Hi, {`${getCookios.slug} `}
-                      let’s get
+                      let’s get to shopping
                     </p>
                   </div>
                   <Link

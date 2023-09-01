@@ -17,10 +17,17 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { storeCategorys } from "../../store/ViewProductHome";
 import { useRecoilState } from "recoil";
 import axios from "axios";
+import { toast } from "react-toastify";
 const defaultTheme = createTheme();
 
 function Suppliers() {
-  const [getCookies] = useCookies(['token', '_id'])
+  // get cookios
+  const [getCookies] = useCookies(["token","_id"]);
+
+  // reset feilds
+  const [feildNeed, setfeildNeed] = React.useState("");
+  const [feilddetails, setfeilddetails] = React.useState("");
+  const [feildquantity, setfeildquantity] = React.useState("");
 
   // Handle Error Data
   const [mainError, setMainError] = React.useState("");
@@ -33,10 +40,14 @@ function Suppliers() {
   const handleChangeCatigorySearch = (e) => {
     setCategorySearch(e.target.value);
   };
-  console.log("getCookies.token", getCookies.token);
+  // console.log("getCookies.token", getCookies.token);
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const dataForm = new FormData(e.currentTarget);
+    setfeildNeed(dataForm.get("youNeed"));
+    setfeilddetails(dataForm.get("details"));
+    setfeildquantity(dataForm.get("quantity"));
     const data = {
       titleNeed: dataForm.get("youNeed"),
       details: dataForm.get("details"),
@@ -57,11 +68,28 @@ function Suppliers() {
           user: getCookies._id,
         },
         {
-          headers: { Authorization: getCookies.token},
+          headers: { Authorization: getCookies.token },
         }
       )
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then(() => {
+        setLoading(false);
+        toast.success("Successful submission", {
+          position: "top-right",
+          // autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        // clear feilds
+        setCategorySearch("");
+        setfeildNeed("");
+        setfeilddetails("");
+        setfeildquantity("");
+      })
+      .catch((err) => setMainError(err.response?.message));
   };
 
   return (
@@ -110,7 +138,10 @@ function Suppliers() {
                   sx={{ mt: 1 }}
                 >
                   <TextField
-                    onChange={() => {
+                    value={feildNeed}
+                    disabled={loading}
+                    onChange={(e) => {
+                      setfeildNeed(e.target.value);
                       setMainError("");
                     }}
                     margin="normal"
@@ -121,9 +152,12 @@ function Suppliers() {
                     name="youNeed"
                   />
                   <TextareaAutosize
+                    value={feilddetails}
+                    disabled={loading}
                     maxRows={6}
                     className={`py-3 rounded-md border-2 px-2 w-full`}
-                    onChange={() => {
+                    onChange={(e) => {
+                      setfeilddetails(e.target.value);
                       setMainError("");
                     }}
                     placeholder="Type more details"
@@ -131,9 +165,12 @@ function Suppliers() {
                   />
                   <div className={`flex items-center  justify-between gap-3`}>
                     <TextField
+                      value={feildquantity}
+                      disabled={loading}
                       type="number"
                       className=""
-                      onChange={() => {
+                      onChange={(e) => {
+                        setfeildquantity(e.target.value);
                         setMainError("");
                       }}
                       margin="normal"
@@ -143,7 +180,7 @@ function Suppliers() {
                       name="quantity"
                     />
                     <Select
-                      value={categorySearch}
+                      disabled={loading}
                       onChange={handleChangeCatigorySearch}
                       displayEmpty
                       inputProps={{ "aria-label": "Without label" }}
@@ -152,6 +189,7 @@ function Suppliers() {
                         fontSize: "1rem",
                         height: "100%",
                       }}
+                      value={categorySearch || ""}
                     >
                       <MenuItem value="">
                         <em>All Category</em>
@@ -169,12 +207,15 @@ function Suppliers() {
                     {mainError}
                   </div>
                   <Button
-                    type={getCookies.token? "submit": "reset"}
+                    disabled={loading}
+                    type={getCookies.token ? "submit" : "reset"}
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                   >
-                    {getCookies.token? "Send inquiry":"Please Login and send your message!" }{" "}
+                    {getCookies.token
+                      ? "Send inquiry"
+                      : "Please Login and send your message!"}{" "}
                     {loading && <div className="spinner ms-2"></div>}
                   </Button>
                 </Box>
