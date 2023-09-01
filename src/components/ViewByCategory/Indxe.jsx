@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { products } from "../../store/ViewProductHome";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import USDollar from "../components-products/FormatPrice";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -86,7 +87,7 @@ function ViewByCategoryIndex({
                             >
                               From
                               <br />
-                              EGP {price}
+                              {USDollar.format(price)}
                             </p>
                           </div>
                         </div>

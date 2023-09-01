@@ -9,12 +9,14 @@ import { Link } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
+let producsDicountsAlise = []
+
 function Discounts() {
   // handle products
   const [producs] = useRecoilState(products);
   const [producsDicounts, setProducsDicounts] =
     useRecoilState(producsDicountsState);
-
+  
   // console.log(producsDicounts);
 
   // handle time
@@ -25,6 +27,7 @@ function Discounts() {
       const proDis = producs.filter(
         ({ priceAfterDiscount = 0 }) => priceAfterDiscount > 0
       );
+      producsDicountsAlise = proDis;
       setProducsDicounts(proDis);
     }
   }, [producs]);
@@ -116,7 +119,7 @@ function Discounts() {
             <div
               className={`flex gap-4 flex-wrap justify-around  items-center`}
             >
-              {producsDicounts
+              {producsDicountsAlise
                 .slice(0, 5)
                 .map(
                   ({ _id, imageCover, title, price, priceAfterDiscount }) => {

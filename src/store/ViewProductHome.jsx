@@ -22,4 +22,15 @@ const producsDicountsState = atom({
   default: [],
 });
 
-export { products, storeCategorys, loadingState, producsDicountsState };
+const producsTopReviewaState = atom({
+  key: "producsTopReviewaState",
+  default: [],
+});
+
+export {
+  products,
+  storeCategorys,
+  loadingState,
+  producsDicountsState,
+  producsTopReviewaState,
+};
