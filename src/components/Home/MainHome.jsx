@@ -55,7 +55,7 @@ function MainHome() {
         <CssBaseline />
         {categorys ? (
           <div
-            className={`lg:hidden flex gap-5 flex-nowrap overflow-scroll p-2 `}
+            className={`xl:hidden flex gap-5 flex-nowrap overflow-scroll p-2 `}
           >
             <button
               className={`px-2 py-1 bg-[#EFF2F4] rounded-lg text-[#0D6EFD] whitespace-nowrap`}
@@ -78,7 +78,7 @@ function MainHome() {
           className={`flex justify-between bg-[#fff] rounded-lg p-1 mt-2 border-1`}
         >
           {/* List Category */}
-          <div className="hidden lg:block w-[20%]">
+          <div className="hidden xl:block w-[20%]">
             <Box>
               {categorys ? (
                 <ListItem className="flex flex-col justify-start text-start">
@@ -105,7 +105,7 @@ function MainHome() {
             spaceBetween={0}
             centeredSlides={true}
             autoplay={{
-              delay: 2500,
+              delay: 3000,
               disableOnInteraction: false,
             }}
             modules={[Autoplay]}

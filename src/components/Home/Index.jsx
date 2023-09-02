@@ -6,12 +6,14 @@ import Suppliers from "./Suppliers";
 import RecommendedItems from "./RecommendedItems";
 import Services from "./Services";
 import SuppliersRegion from "./SuppliersRegion";
+import Copyright from "../Copyright";
+import Footer from "../layout/Footer";
 
 // Needs
 // ========================================= \\
 // you need create req sned on this req category view in home
 // and add category id and image cover
-// /api/v1/viewCategory
+// /api/v1/viewCategory  
 // ========================================= \\
 
 function HomeIndex() {
@@ -25,7 +27,8 @@ function HomeIndex() {
       <RecommendedItems />
       <Services />
       <SuppliersRegion />
-      <ViewByCategoryIndex category_id="64bf9a5e1e435a618d06fb6b" />
+      <Footer />
+      <Copyright />
     </div>
   );
 }

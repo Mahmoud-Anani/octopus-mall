@@ -56,13 +56,13 @@ function SuppliersRegion() {
                   <p className={`text-[#1C1C1C] text-base font-normal`}>
                     {name}
                   </p>
-                  <a
+                  <span
                     className={`text-[#8B96A5] text-xs font-normal`}
                     href={website}
                     target="_blank"
                   >
                     {urlView}
-                  </a>
+                  </span>
                 </div>
               </a>
             );

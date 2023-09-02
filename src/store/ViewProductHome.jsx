@@ -33,7 +33,11 @@ const suppliersState = atom({
   default: [],
 });
 
-
+// Logo
+const sideShowState = atom({
+  key: "sideShowState",
+  default: "-left-full",
+});
 
 export {
   products,
@@ -42,4 +46,5 @@ export {
   producsDicountsState,
   producsTopReviewaState,
   suppliersState,
+  sideShowState,
 };
