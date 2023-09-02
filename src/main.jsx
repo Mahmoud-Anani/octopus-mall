@@ -19,6 +19,7 @@ import 'swiper/css/navigation';
 // import "react-alice-carousel/lib/alice-carousel.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  
   <React.StrictMode>
     <ToastContainer />
     <BrowserRouter>

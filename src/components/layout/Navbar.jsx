@@ -252,7 +252,11 @@ function Navbar() {
   }
   return (
     <ThemeProvider theme={defaultTheme}>
-      <nav className="flex items-center flex-wrap justify-between py-3 gap-5 sticky top-0 z-50 bg-[#FFF] px-5 ">
+      <nav
+        className={`${
+          loading ? "hidden" : "flex"
+        }  items-center  flex-wrap justify-between py-3 gap-5 sticky top-0 z-50 bg-[#FFF] px-5`}
+      >
         {/* sidbar mubile */}
         {
           <div
@@ -692,7 +696,7 @@ function Navbar() {
       >
         <CssBaseline />
         <nav
-          className={`border-2 border-x-0 py-3 text-center sm:block hidden `}
+          className={`border-2 border-x-0 py-3 text-center hidden  ${loading?"sm:hidden":"sm:block"}  `}
         >
           {/* Links */}
           <div className={"flex gap-5 justify-center"}>
