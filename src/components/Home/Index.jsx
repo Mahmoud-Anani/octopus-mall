@@ -5,6 +5,7 @@ import ViewByCategoryIndex from "../ViewByCategory/Indxe";
 import Suppliers from "./Suppliers";
 import RecommendedItems from "./RecommendedItems";
 import Services from "./Services";
+import SuppliersRegion from "./SuppliersRegion";
 
 // Needs
 // ========================================= \\
@@ -23,6 +24,7 @@ function HomeIndex() {
       <Suppliers />
       <RecommendedItems />
       <Services />
+      <SuppliersRegion />
       <ViewByCategoryIndex category_id="64bf9a5e1e435a618d06fb6b" />
     </div>
   );
