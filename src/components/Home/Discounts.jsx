@@ -2,21 +2,28 @@ import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { producsDicountsState, products } from "../../store/ViewProductHome";
+import {
+  mainProductsState,
+  producsDicountsState,
+  products,
+} from "../../store/ViewProductHome";
 import { Link } from "react-router-dom";
+
+import notFoundProducts from "./../../assets/products/notFound-Products.gif";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-let producsDicountsAlise = []
+let producsDicountsAlise = [];
 
 function Discounts() {
   // handle products
-  const [producs] = useRecoilState(products);
+  // const [producs] = useRecoilState(products);
+  const [producs] = useRecoilState(mainProductsState);
   const [producsDicounts, setProducsDicounts] =
     useRecoilState(producsDicountsState);
-  
+
   // console.log(producsDicounts);
 
   // handle time
@@ -119,41 +126,54 @@ function Discounts() {
             <div
               className={`flex gap-4 flex-wrap justify-around  items-center`}
             >
-              {producsDicountsAlise
-                .slice(0, 5)
-                .map(
-                  ({ _id, imageCover, title, price, priceAfterDiscount }) => {
-                    return (
-                      <Link
-                        to={`/product`}
-                        key={_id}
-                        className="text-center border-x-2 px-2  "
-                      >
-                        <img
-                          className={`w-full sm:w-24 rounded-lg `}
-                          src={imageCover}
-                          alt={title}
-                        />
-                        <p
-                          className={`text-[#1C1C1C] my-2 text-base font-normal text-center`}
+              {producsDicountsAlise.length > 0 ? (
+                producsDicountsAlise
+                  .slice(0, 5)
+                  .map(
+                    ({ _id, imageCover, title, price, priceAfterDiscount }) => {
+                      return (
+                        <Link
+                          to={`/product`}
+                          key={_id}
+                          className="text-center border-x-2 px-2  "
                         >
-                          {title.length > 30
-                            ? `${title.slice(0, 10)}...`
-                            : title}
-                        </p>
-                        <span
-                          className={`text-[#EB001B] bg-[#FFE3E3] text-sm font-medium px-3 py-2 rounded-xl`}
-                        >
-                          -
-                          {Math.round(
-                            ((price - priceAfterDiscount) / price) * 100
-                          )}
-                          %
-                        </span>
-                      </Link>
-                    );
-                  }
-                )}
+                          <img
+                            className={`w-full sm:w-24 rounded-lg `}
+                            src={imageCover}
+                            alt={title}
+                          />
+                          <p
+                            className={`text-[#1C1C1C] my-2 text-base font-normal text-center`}
+                          >
+                            {title.length > 30
+                              ? `${title.slice(0, 10)}...`
+                              : title}
+                          </p>
+                          <span
+                            className={`text-[#EB001B] bg-[#FFE3E3] text-sm font-medium px-3 py-2 rounded-xl`}
+                          >
+                            -
+                            {Math.round(
+                              ((price - priceAfterDiscount) / price) * 100
+                            )}
+                            %
+                          </span>
+                        </Link>
+                      );
+                    }
+                  )
+              ) : (
+                <div>
+                  <p className="text-[#000000] text-center text-lg font-medium">
+                    Not Found Products!
+                  </p>
+                  <img
+                    className={`max-w-xs`}
+                    src={notFoundProducts}
+                    alt="not Found Products"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

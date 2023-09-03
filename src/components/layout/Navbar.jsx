@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import {
   loadingState,
+  mainProductsState,
   products,
   sideShowState,
   storeCategorys,
@@ -121,6 +122,20 @@ function Navbar() {
 
   // const [keywordSearch, setKeywordSearch] = React.useState("");
   const [producs, setProducts] = useRecoilState(products);
+  const [mainProducts, setmainProducts] = useRecoilState(mainProductsState);
+  // console.log(producs);
+  const getMainProducts = async () =>
+    await axios
+      .get(
+        `${
+          import.meta.env.VITE_DOMAIN_NAME
+        }/api/v1/products?limit=${limitProducts}`
+      )
+      .then((res) => {
+        const data = res.data;
+        setmainProducts(data.data);
+      });
+
   // Get Poducts
   const getProducts = async () => {
     if (categorySearchId !== "" && keywordSearch === "") {
@@ -173,6 +188,7 @@ function Navbar() {
         });
     }
   };
+  // console.log(producs);
   // Get Categorys
   // const [categorys, setcategorys] = React.useState([]);
   const [categorys, setcategorys] = useRecoilState(storeCategorys);
@@ -191,6 +207,7 @@ function Navbar() {
   React.useEffect(() => {
     getCategorys();
     getProducts();
+    getMainProducts();
     // handle auth user
     if (getCookios.slug) {
       const fullUserNameArray = getCookios.slug.split("-");
@@ -696,7 +713,9 @@ function Navbar() {
       >
         <CssBaseline />
         <nav
-          className={`border-2 border-x-0 py-3 text-center hidden  ${loading?"sm:hidden":"sm:block"}  `}
+          className={`border-2 border-x-0 py-3 text-center hidden  ${
+            loading ? "sm:hidden" : "sm:block"
+          }  `}
         >
           {/* Links */}
           <div className={"flex gap-5 justify-center"}>

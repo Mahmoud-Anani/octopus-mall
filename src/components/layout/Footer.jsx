@@ -415,7 +415,7 @@ function Footer({
               <p className={`text-[#505050] text-base font-normal`}>{text}</p>
               <div className={`flex gap-1 mt-2`}>
                 {socialMedia.map((social) => (
-                  <a target="_self" key={social.id} href={social.url}>
+                  <a target="_self" className="hover:bg-[#ebebeb] rounded-full" key={social.id} href={social.url}>
                     {social.svg}
                   </a>
                 ))}

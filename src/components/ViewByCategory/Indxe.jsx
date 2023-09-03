@@ -2,7 +2,7 @@ import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { products } from "../../store/ViewProductHome";
+import { mainProductsState, products } from "../../store/ViewProductHome";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import EGP from "../components-products/FormatPrice";
@@ -22,7 +22,9 @@ function ViewByCategoryIndex({
       .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/category/${category_id}`)
       .then((res) => settitleCategory(res.data.data.name));
   // handle products
-  const [producs] = useRecoilState(products);
+  // const [producs] = useRecoilState(products);
+  const [producs] = useRecoilState(mainProductsState);
+
   const [producsCategory, setProducsCategory] = React.useState([]);
 
   // console.log("producsCategory", producsCategory);

@@ -13,7 +13,7 @@ import Footer from "../layout/Footer";
 // ========================================= \\
 // you need create req sned on this req category view in home
 // and add category id and image cover
-// /api/v1/viewCategory  
+// /api/v1/viewCategory   
 // ========================================= \\
 
 function HomeIndex() {

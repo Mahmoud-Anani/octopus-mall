@@ -12,6 +12,11 @@ const products = atom({
   default: [],
 });
 
+const mainProductsState = atom({
+  key: "mainProductsState",
+  default: [],
+});
+
 const storeCategorys = atom({
   key: "categorys",
   default: [],
@@ -47,4 +52,5 @@ export {
   producsTopReviewaState,
   suppliersState,
   sideShowState,
+  mainProductsState,
 };

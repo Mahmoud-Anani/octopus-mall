@@ -1,7 +1,8 @@
 import React from "react";
 import EGP from "./FormatPrice";
+import { Rating } from "@mui/material";
 
-function ShowProductHome({ imgUrl, price, title }) {
+function ShowProductHome({ imgUrl, price, title ,ratingsAverage}) {
   return (
     <>
       <img className={`w-full rounded-sm`} src={imgUrl} alt={title} />
@@ -12,6 +13,7 @@ function ShowProductHome({ imgUrl, price, title }) {
         <p className={`text-[#8B96A5] text-base font-normal`}>
           {title.length > 20 ? title.slice(0, 10) + "..." : title}
         </p>
+        <Rating name="read-only" value={ratingsAverage} readOnly />
       </div>
     </>
   );
