@@ -26,11 +26,9 @@ function ViewByCategoryIndex({
   const [producs] = useRecoilState(mainProductsState);
 
   const [producsCategory, setProducsCategory] = React.useState([]);
-
+  // tests
   // console.log("producsCategory", producsCategory);
   // console.log("titleCategory", titleCategory);
-
-  // handle time
 
   React.useEffect(() => {
     if (producs.length > 0) {
@@ -111,48 +109,3 @@ function ViewByCategoryIndex({
 }
 
 export default ViewByCategoryIndex;
-
-// deleted
-/*
-
-
-            <div className={`flex gap-4 flex-wrap justify-around items-center`}>
-              {producsCategory
-                .slice(4, 8)
-                .map(({ _id, imageCover, title, price }) => {
-                  return (
-                    <Link
-                      to={`/products`}
-                      key={_id}
-                      className="flex gap-5 border-x-2 px-2"
-                    >
-                      <div>
-                        <div>
-                          <p
-                            className={`text-[#1C1C1C] my-2 text-base font-normal text-center`}
-                          >
-                            {title.length > 30
-                              ? `${title.slice(0, 10)}...`
-                              : title}
-                          </p>
-                          <div>
-                            <p
-                              className={`text-[#8B96A5] my-2 text-xs font-normal text-start`}
-                            >
-                              From
-                              <br />
-                              EGP {price}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <img
-                        className={`w-full sm:w-36 rounded-lg `}
-                        src={imageCover}
-                        alt={title}
-                      />
-                    </Link>
-                  );
-                })}
-            </div>
-*/

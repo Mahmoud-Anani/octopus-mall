@@ -15,6 +15,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
 import { Autoplay } from "swiper/modules";
 import { useCookies } from "react-cookie";
+import CategoryNav from "../MobileComponents/CategoryNav";
 
 const defaultTheme = createTheme();
 
@@ -54,27 +55,7 @@ function MainHome() {
     <ThemeProvider theme={defaultTheme}>
       <Container component={"section"} maxWidth={"xl"}>
         <CssBaseline />
-        {categorys ? (
-          <div
-            className={`xl:hidden flex gap-5 flex-nowrap overflow-scroll p-2 `}
-          >
-            <button
-              className={`px-2 py-1 bg-[#EFF2F4] rounded-lg text-[#0D6EFD] whitespace-nowrap`}
-            >
-              All category
-            </button>
-            {categorys.map((cate) => (
-              <button
-                className={`px-2 py-1 bg-[#EFF2F4] rounded-lg text-[#0D6EFD] whitespace-nowrap`}
-                key={cate._id}
-              >
-                {cate.name}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div className="spinner ms-2"></div>
-        )}
+<CategoryNav />
         <div
           className={`flex justify-between bg-[#fff] rounded-lg p-1 mt-2 border-1`}
         >

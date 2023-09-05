@@ -17,11 +17,6 @@ const mainProductsState = atom({
   default: [],
 });
 
-const storeCategorys = atom({
-  key: "categorys",
-  default: [],
-});
-
 const producsDicountsState = atom({
   key: "producsDicountsState",
   default: [],
@@ -29,6 +24,12 @@ const producsDicountsState = atom({
 
 const producsTopReviewaState = atom({
   key: "producsTopReviewaState",
+  default: [],
+});
+
+// Categorys
+const storeCategorys = atom({
+  key: "categorys",
   default: [],
 });
 
@@ -44,6 +45,12 @@ const sideShowState = atom({
   default: "-left-full",
 });
 
+// keywordSearch
+const keywordSearchState = atom({
+  key: "keywordSearchState",
+  default: "",
+});
+
 export {
   products,
   storeCategorys,
@@ -53,4 +60,5 @@ export {
   suppliersState,
   sideShowState,
   mainProductsState,
+  keywordSearchState,
 };

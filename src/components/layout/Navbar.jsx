@@ -1,36 +1,42 @@
 import React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, Container, CssBaseline, MenuItem, Select } from "@mui/material";
 
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useRecoilState } from "recoil";
+// AXIOS
+import axios from "axios";
+// STATES
 import {
   loadingState,
   mainProductsState,
   products,
   sideShowState,
   storeCategorys,
+  keywordSearchState,
 } from "../../store/ViewProductHome";
+// Cookies
 import { useCookies } from "react-cookie";
-
+// UI Components MUI
+import { Box, Container, CssBaseline, MenuItem, Select } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+// UI Statemant
 import Copyright from "../Copyright";
 import Logo from "../Logo";
+import { filterCategory } from "../../store/FiltersStore";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-const limitProducts = 10000;
+// const VITE_LIMITPRODUCTS = 10000;
 
-let categorySearchId = "";
-let keywordSearch = "";
+// let categorySearchId = "";
+// let keywordSearch = "";
 let searchKeywordMubile = "";
 
 let fullNameMain = "";
@@ -127,9 +133,9 @@ function Navbar() {
   const getMainProducts = async () =>
     await axios
       .get(
-        `${
-          import.meta.env.VITE_DOMAIN_NAME
-        }/api/v1/products?limit=${limitProducts}`
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${
+          import.meta.env.VITE_LIMITPRODUCTS
+        }`
       )
       .then((res) => {
         const data = res.data;
@@ -137,6 +143,12 @@ function Navbar() {
       });
 
   // Get Poducts
+  const [keywordSearch, setkeywordSearchState] =
+    useRecoilState(keywordSearchState);
+  
+  const [categorySearchId, setcategorySearchId] =
+    useRecoilState(filterCategory);
+
   const getProducts = async () => {
     if (categorySearchId !== "" && keywordSearch === "") {
       // Get products by only category
@@ -144,7 +156,9 @@ function Navbar() {
         .get(
           `${
             import.meta.env.VITE_DOMAIN_NAME
-          }/api/v1/products?category=${categorySearchId}&limit=${limitProducts}`
+          }/api/v1/products?category=${categorySearchId}&limit=${
+            import.meta.env.VITE_LIMITPRODUCTS
+          }`
         )
         .then((res) => {
           const data = res.data;
@@ -156,7 +170,9 @@ function Navbar() {
         .get(
           `${
             import.meta.env.VITE_DOMAIN_NAME
-          }/api/v1/products?keyword=${keywordSearch}&limit=${limitProducts}`
+          }/api/v1/products?keyword=${keywordSearch}&limit=${
+            import.meta.env.VITE_LIMITPRODUCTS
+          }`
         )
         .then((res) => {
           const data = res.data;
@@ -168,7 +184,9 @@ function Navbar() {
         .get(
           `${
             import.meta.env.VITE_DOMAIN_NAME
-          }/api/v1/products?keyword=${keywordSearch}&category=${categorySearchId}&limit=${limitProducts}`
+          }/api/v1/products?keyword=${keywordSearch}&category=${categorySearchId}&limit=${
+            import.meta.env.VITE_LIMITPRODUCTS
+          }`
         )
         .then((res) => {
           const data = res.data;
@@ -178,9 +196,9 @@ function Navbar() {
       // Get products
       return await axios
         .get(
-          `${
-            import.meta.env.VITE_DOMAIN_NAME
-          }/api/v1/products?limit=${limitProducts}`
+          `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${
+            import.meta.env.VITE_LIMITPRODUCTS
+          }`
         )
         .then((res) => {
           const data = res.data;
@@ -188,7 +206,7 @@ function Navbar() {
         });
     }
   };
-  // console.log(producs);
+
   // Get Categorys
   // const [categorys, setcategorys] = React.useState([]);
   const [categorys, setcategorys] = useRecoilState(storeCategorys);
@@ -239,20 +257,21 @@ function Navbar() {
 
   const handleChangeCatigorySearch = (e) => {
     setCategorySearch(e.target.value);
-    categorySearchId = e.target.value;
+    setcategorySearchId(e.target.value);
   };
 
   // handle form
+
   const handleSubmit = (e) => {
     if (searchKeywordMubile === "") {
       e?.preventDefault();
-      const dataForm = new FormData(e.currentTarget);
+      const dataForm = new FormData(e?.currentTarget);
       const dataSearch = {
         keyword: dataForm.get("keyword"),
       };
-      keywordSearch = dataSearch.keyword;
+      setkeywordSearchState(dataSearch.keyword);
     }
-    keywordSearch = searchKeywordMubile;
+    setkeywordSearchState(searchKeywordMubile);
     getProducts();
   };
   // handle side bar
@@ -342,6 +361,12 @@ function Navbar() {
                           </svg>
                         </ListItemIcon>
                         <ListItemText primary="Home" />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                      <ListItemButton onClick={() => movePage("/products")}>
+                        <ListItemIcon></ListItemIcon>
+                        <ListItemText primary="Products" />
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
@@ -588,6 +613,7 @@ function Navbar() {
             className={`sm:flex hidden  border-2 border-[#0D6EFD] rounded-lg `}
           >
             <input
+              onChange={(e) => setkeywordSearchState(e.target.value)}
               id="keyword"
               label="Search"
               name="keyword"
@@ -628,8 +654,12 @@ function Navbar() {
           >
             <input
               onChange={(e) => {
-                searchKeywordMubile = e.target.value;
-                handleSubmit();
+                if (e.target.value === "") {
+                  getMainProducts();
+                } else {
+                  searchKeywordMubile = e.target.value;
+                  handleSubmit();
+                }
               }}
               id="keyword"
               label="Search"

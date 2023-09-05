@@ -15,8 +15,12 @@ import {
 } from "./store/ViewProductHome";
 import HomeIndex from "./components/Home/Index";
 import ProductsIndex from "./components/Products/ProductsIndex";
+import { filterCategory } from "./store/FiltersStore";
 
 function App() {
+  const [filterCategoryState] = useRecoilState(filterCategory);
+  console.log(filterCategoryState);
+
   const [loading, setloading] = useRecoilState(loadingState);
   const [categorys] = useRecoilState(storeCategorys);
   const [prducts] = useRecoilState(products);
@@ -25,23 +29,20 @@ function App() {
       setloading(false);
     }
   }, [prducts, categorys]);
+
+  if (loading) {
+    return (
+      <div
+        className={`h-[100vh] flex justify-center items-center bg-slate-800`}
+      >
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
     <Routes>
       <Route path="*" element={<>404</>} />
-      <Route
-        path="/"
-        element={
-          loading ? (
-            <div
-              className={`h-[100vh] flex justify-center items-center bg-slate-800`}
-            >
-              <div className="loader"></div>
-            </div>
-          ) : (
-            <HomeIndex />
-          )
-        }
-      />
+      <Route path="/" element={<HomeIndex />} />
       {/* Auths */}
       <Route
         path="/auth/sign-in"
