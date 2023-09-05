@@ -70,7 +70,7 @@ function ViewByCategoryIndex({
                 .map(({ _id, imageCover, title, price }) => {
                   return (
                     <Link
-                      to={`/product`}
+                      to={`/products/${_id}`}
                       key={_id}
                       className="flex flex-wrap-reverse gap-5"
                     >
@@ -122,7 +122,7 @@ export default ViewByCategoryIndex;
                 .map(({ _id, imageCover, title, price }) => {
                   return (
                     <Link
-                      to={`/product`}
+                      to={`/products`}
                       key={_id}
                       className="flex gap-5 border-x-2 px-2"
                     >

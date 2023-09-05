@@ -713,7 +713,7 @@ function Navbar() {
       >
         <CssBaseline />
         <nav
-          className={`border-2 border-x-0 py-3 text-center hidden  ${
+          className={`border-t-2 border-x-0 py-3 text-center hidden  ${
             loading ? "sm:hidden" : "sm:block"
           }  `}
         >
@@ -721,6 +721,7 @@ function Navbar() {
           <div className={"flex gap-5 justify-center"}>
             {[
               { id: 1, name: "Home", route: "/" },
+              { id: 7, name: "Products", route: "/products" },
               { id: 2, name: "Categories", route: "/categories" },
               { id: 3, name: "Favorites", route: "/favorites" },
               { id: 4, name: "Orders", route: "/orders" },

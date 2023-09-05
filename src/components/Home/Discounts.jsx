@@ -133,7 +133,7 @@ function Discounts() {
                     ({ _id, imageCover, title, price, priceAfterDiscount }) => {
                       return (
                         <Link
-                          to={`/product`}
+                          to={`/products/${_id}`}
                           key={_id}
                           className="text-center border-x-2 px-2  "
                         >

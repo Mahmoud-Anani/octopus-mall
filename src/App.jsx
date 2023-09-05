@@ -14,6 +14,7 @@ import {
   loadingState,
 } from "./store/ViewProductHome";
 import HomeIndex from "./components/Home/Index";
+import ProductsIndex from "./components/Products/ProductsIndex";
 
 function App() {
   const [loading, setloading] = useRecoilState(loadingState);
@@ -41,6 +42,7 @@ function App() {
           )
         }
       />
+      {/* Auths */}
       <Route
         path="/auth/sign-in"
         element={
@@ -79,6 +81,15 @@ function App() {
           <>
             <ResetPassword />
           </>
+        }
+      />
+      {/* Products */}
+      <Route
+        path="/products"
+        element={
+          <div className="bg-[#DEE2E7]">
+            <ProductsIndex />
+          </div>
         }
       />
     </Routes>

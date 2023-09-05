@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { storeCategorys } from "../../store/ViewProductHome";
 import { useRecoilState } from "recoil";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
@@ -18,12 +18,13 @@ import { useCookies } from "react-cookie";
 
 const defaultTheme = createTheme();
 
-
-
 let fullNameMain = "";
 let userImgMain = "";
 
 function MainHome() {
+  // handle routes
+  const navigater = useNavigate();
+
   const [categorys] = useRecoilState(storeCategorys);
 
   // handle auth user
@@ -119,6 +120,7 @@ function MainHome() {
                 <p className={`text-3xl font-bold`}>Electronic items</p>
               </div>
               <button
+                onClick={() => navigater(`/products`)}
                 className={`text-[#1C1C1C] bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
               >
                 Learn more
@@ -132,7 +134,8 @@ function MainHome() {
                 <p className={`text-3xl font-bold`}>shoe items</p>
               </div>
               <button
-                className={`text-[#1C1C1C] bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
+                onClick={() => navigater(`/products`)}
+                className={`text-[#1C1C1C]  bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
               >
                 Learn more
               </button>
@@ -145,7 +148,8 @@ function MainHome() {
                 <p className={`text-3xl font-bold`}>most expensive products</p>
               </div>
               <button
-                className={`text-[#1C1C1C] bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
+                onClick={() => navigater(`/products`)}
+                className={`text-[#1C1C1C]  bg-[#FFF] hover:bg-[#8a8a8a] hover:text-[#FFF] rounded-lg text-lg font-medium px-8 py-2 mt-3`}
               >
                 Learn more
               </button>
