@@ -1,5 +1,5 @@
 import React from "react";
-import EGP from "./FormatPrice";
+import {EGP} from "./FormatPrice";
 import { Rating } from "@mui/material";
 
 function ShowProductHome({ imgUrl, price, title ,ratingsAverage}) {

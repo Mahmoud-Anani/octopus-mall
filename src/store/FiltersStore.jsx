@@ -6,7 +6,10 @@ const filterCategory = atom({
   default: '',
 });
 
+const filterCategoryData = atom({
+  key: "filterCategoryData",
+  default: "",
+});
 
-export { 
-    filterCategory
-}
+
+export { filterCategory, filterCategoryData };

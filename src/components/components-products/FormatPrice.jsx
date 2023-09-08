@@ -4,4 +4,8 @@ const EGP = new Intl.NumberFormat("en-US", {
   currency: "EGP",
 });
 
-export default EGP;
+const normalNumber = new Intl.NumberFormat("en-IN", {
+  maximumSignificantDigits: 3,
+});
+
+export { EGP, normalNumber };

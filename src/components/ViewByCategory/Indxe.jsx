@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { mainProductsState, products } from "../../store/ViewProductHome";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import EGP from "../components-products/FormatPrice";
+import {EGP} from "../components-products/FormatPrice";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 

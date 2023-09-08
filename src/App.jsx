@@ -19,7 +19,7 @@ import { filterCategory } from "./store/FiltersStore";
 
 function App() {
   const [filterCategoryState] = useRecoilState(filterCategory);
-  console.log(filterCategoryState);
+  // console.log(filterCategoryState);
 
   const [loading, setloading] = useRecoilState(loadingState);
   const [categorys] = useRecoilState(storeCategorys);
