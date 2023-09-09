@@ -757,6 +757,8 @@ function Navbar() {
               { id: 4, name: "Orders", route: "/orders" },
               { id: 5, name: "Contact us", route: "/contact" },
               { id: 6, name: "About", route: "/about" },
+              { id: 8, name: "Sign-In", route: "/auth/sign-in" },
+              { id: 9, name: "Sign-Up", route: "/auth/sign-up" },
             ].map((link) => {
               return (
                 <Link

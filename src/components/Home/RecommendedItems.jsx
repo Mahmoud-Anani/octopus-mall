@@ -12,6 +12,7 @@ import { Container, CssBaseline } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import notFoundProducts from "./../../assets/products/notFound-Products.gif"
+import NotFoundProducts from "../notFound/NotFoundProducts";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -62,18 +63,7 @@ function RecommendedItems() {
                 </Link>
               );
             })
-          ) : (
-            <>
-              <img
-                className={`mx-auto w-full`}
-                src={notFoundProducts}
-                alt="not Found Products"
-              />
-              <p className="text-[#000000] text-center text-lg font-medium">
-                Not Found Products!
-              </p>
-            </>
-          )}
+          ) : <NotFoundProducts />}
         </div>
       </Container>
     </ThemeProvider>

@@ -56,7 +56,6 @@ export default function SignIn() {
         password,
       })
       .then((res) => {
-        console.log('_id',res.data.data._id);
         setLoading(false);
         // Set Token
         navigetor("/");

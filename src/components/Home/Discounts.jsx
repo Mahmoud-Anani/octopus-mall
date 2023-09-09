@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 
 import notFoundProducts from "./../../assets/products/notFound-Products.gif";
+import NotFoundProducts from "../notFound/NotFoundProducts";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -162,18 +163,7 @@ function Discounts() {
                       );
                     }
                   )
-              ) : (
-                <div>
-                  <p className="text-[#000000] text-center text-lg font-medium">
-                    Not Found Products!
-                  </p>
-                  <img
-                    className={`max-w-xs`}
-                    src={notFoundProducts}
-                    alt="not Found Products"
-                  />
-                </div>
-              )}
+              ) : <NotFoundProducts />}
             </div>
           </div>
         </div>
