@@ -36,7 +36,7 @@ function FilterCategory() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?category=${categorySearchId}&limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS || 10000
           }`
         )
         .then((res) => {
@@ -50,7 +50,7 @@ function FilterCategory() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?keyword=${keywordSearch}&limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS || 10000
           }`
         )
         .then((res) => {
@@ -76,7 +76,7 @@ function FilterCategory() {
       return await axios
         .get(
           `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS || 10000
           }`
         )
         .then((res) => {
