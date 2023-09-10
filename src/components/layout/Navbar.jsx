@@ -33,7 +33,7 @@ import { filterCategory } from "../../store/FiltersStore";
 
 const defaultTheme = createTheme();
 
-// const VITE_VITE_LIMITPRODUCTS = 10000;
+// const VITE_LIMITPRODUCTS = 10000;
 
 // let categorySearchId = "";
 // let keywordSearch = "";
@@ -134,7 +134,7 @@ function Navbar() {
     await axios
       .get(
         `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${
-          import.meta.env.VITE_VITE_LIMITPRODUCTS
+          import.meta.env.VITE_LIMITPRODUCTS
         }`
       )
       .then((res) => {
@@ -157,7 +157,7 @@ function Navbar() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?category=${categorySearchId}&limit=${
-            import.meta.env.VITE_VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
@@ -171,7 +171,7 @@ function Navbar() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?keyword=${keywordSearch}&limit=${
-            import.meta.env.VITE_VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
@@ -185,7 +185,7 @@ function Navbar() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?keyword=${keywordSearch}&category=${categorySearchId}&limit=${
-            import.meta.env.VITE_VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
@@ -197,7 +197,7 @@ function Navbar() {
       return await axios
         .get(
           `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${
-            import.meta.env.VITE_VITE_LIMITPRODUCTS
+            import.meta.env.VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
