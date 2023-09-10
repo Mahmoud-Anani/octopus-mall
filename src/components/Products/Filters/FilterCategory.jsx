@@ -23,11 +23,10 @@ function FilterCategory() {
   //   React.useEffect(() => {
   //     getCategorys();
   //   }, []);
-  const [, settfilterCategoryState] =
-    useRecoilState(filterCategory);
+  const [, settfilterCategoryState] = useRecoilState(filterCategory);
 
   const [keywordSearch] = useRecoilState(keywordSearchState);
-  const [,setProducts] = useRecoilState(products);
+  const [, setProducts] = useRecoilState(products);
 
   const getProducts = async (categorySearchId) => {
     if (categorySearchId !== "" && keywordSearch === "") {
@@ -37,7 +36,7 @@ function FilterCategory() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?category=${categorySearchId}&limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
@@ -51,7 +50,7 @@ function FilterCategory() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?keyword=${keywordSearch}&limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
@@ -65,7 +64,7 @@ function FilterCategory() {
           `${
             import.meta.env.VITE_DOMAIN_NAME
           }/api/v1/products?keyword=${keywordSearch}&category=${categorySearchId}&limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
@@ -77,7 +76,7 @@ function FilterCategory() {
       return await axios
         .get(
           `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${
-            import.meta.env.VITE_LIMITPRODUCTS
+            import.meta.env.VITE_VITE_LIMITPRODUCTS
           }`
         )
         .then((res) => {
