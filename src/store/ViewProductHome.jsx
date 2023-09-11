@@ -51,6 +51,12 @@ const keywordSearchState = atom({
   default: "",
 });
 
+// Brand
+const brandsStore = atom({
+  key: "brandsStore",
+  default: [],
+});
+
 export {
   products,
   storeCategorys,
@@ -61,4 +67,5 @@ export {
   sideShowState,
   mainProductsState,
   keywordSearchState,
+  brandsStore,
 };

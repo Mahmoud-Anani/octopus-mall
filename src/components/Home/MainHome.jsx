@@ -55,7 +55,7 @@ function MainHome() {
     <ThemeProvider theme={defaultTheme}>
       <Container component={"section"} maxWidth={"xl"}>
         <CssBaseline />
-<CategoryNav />
+        <CategoryNav />
         <div
           className={`flex justify-between bg-[#fff] rounded-lg p-1 mt-2 border-1`}
         >
@@ -136,7 +136,6 @@ function MainHome() {
               </button>
             </SwiperSlide>
           </Swiper>
-
           {/* Discounts */}
           <div className={`hidden sm:block px-5 sm:w-[40%]`}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
