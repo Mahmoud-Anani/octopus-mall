@@ -11,7 +11,7 @@ import {
   products,
   storeCategorys,
 } from "../../../store/ViewProductHome";
-import { filterCategory } from "../../../store/FiltersStore";
+import {  filterCategory } from "../../../store/FiltersStore";
 import axios from "axios";
 
 function FilterCategory() {
@@ -89,6 +89,7 @@ function FilterCategory() {
   // console.log(filterCategoryClick_id);
   // Handle see all Category
   const [seeAllCategory, setSeeAllCategory] = React.useState(false);
+  
   return (
     <>
       <Accordion className={`max-w-xs`} defaultExpanded={true}>
