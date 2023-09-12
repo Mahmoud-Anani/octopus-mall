@@ -43,6 +43,7 @@ import Footer from "../layout/Footer";
 import Copyright from "../Copyright";
 import FilterPrice from "./Filters/FilterPrice";
 import FilterRatings from "./Filters/FilterRatings";
+import RouteComponent from "../RouteComponent";
 
 const defaultTheme = createTheme();
 
@@ -73,24 +74,7 @@ function ProductsIndex() {
     getSingleCategory();
   }, [filterCategoryState]);
 
-  const breadcrumbs = [
-    <Link
-      underline="hover"
-      className="hover:bg-slate-300 p-2 rounded-lg text-[#8B96A5]"
-      key="1"
-      color="inherit"
-      href="/"
-      to={"/"}
-    >
-      Home
-    </Link>,
-    <Typography className="text-[#8B96A5]" key="3" color="text.primary">
-      Products
-    </Typography>,
-    <Typography className="text-[#8B96A5]" key="3" color="text.primary">
-      {categoryNew.name}
-    </Typography>,
-  ];
+
 
   const [styleView, setStyleView] = React.useState("col");
 
@@ -260,13 +244,7 @@ function ProductsIndex() {
         <CssBaseline />
         <div className="flex flex-col gap-5">
           {/* Route Now */}
-          <Breadcrumbs
-            className={`px-6 py-2 `}
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
-          >
-            {breadcrumbs}
-          </Breadcrumbs>
+    <RouteComponent />
           <div className={`grid sm:grid-cols-3 grid-cols-1 gap-3`}>
             {/* filters */}
             <div className={`hidden sm:block w-fit `}>
