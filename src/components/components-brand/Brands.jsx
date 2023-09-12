@@ -53,8 +53,8 @@ function Brands() {
             modules={[Pagination]}
             className="mySwiper cursor-grab "
           >
-            {brands.map(({ name, slug }) => (
-              <SwiperSlide key={slug} className={`text-center`}>
+            {brands.map(({ name, slug,_id }) => (
+              <SwiperSlide key={_id} className={`text-center`}>
                 <h1 className={`text-slate-300 text-6xl`}>{slug}</h1>
                 <span className={`text-lg font-bold`}>{name}</span>
               </SwiperSlide>

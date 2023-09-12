@@ -416,7 +416,7 @@ function ProductsIndex() {
                               {description}
                             </h2>
                             <Link
-                              to={`/products/${slug}`}
+                              to={`/products/${_id}`}
                               className={`text-[#0D6EFD] text-base font-medium`}
                             >
                               View details
@@ -447,7 +447,7 @@ function ProductsIndex() {
                         slug,
                       }) => (
                         <Link
-                          to={`/products/${slug}`}
+                          to={`/products/${_id}`}
                           className={`flex flex-col items-center gap-2 `}
                           key={_id}
                         >

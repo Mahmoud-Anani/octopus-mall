@@ -16,6 +16,7 @@ import {
 import HomeIndex from "./components/Home/Index";
 import ProductsIndex from "./components/Products/ProductsIndex";
 import { filterCategory } from "./store/FiltersStore";
+import SingleProducts from "./components/Single-products/SingleProducts";
 
 function App() {
   const [filterCategoryState] = useRecoilState(filterCategory);
@@ -90,6 +91,15 @@ function App() {
         element={
           <div className="bg-[#DEE2E7]">
             <ProductsIndex />
+          </div>
+        }
+      />
+      {/* single product */}
+      <Route
+        path="/products/:productSlug"
+        element={
+          <div className="bg-[#DEE2E7]">
+            <SingleProducts />
           </div>
         }
       />
