@@ -23,7 +23,9 @@ function HomeIndex() {
     <div className="bg-[#DEE2E7] flex flex-col gap-5">
       <MainHome />
       {/* Brand */}
-      <Brands />
+      <div className="hidden lg:block">
+        <Brands />
+      </div>
       <Discounts />
       <ViewByCategoryIndex category_id="64bf9a461e435a618d06fb61" />
       <ViewByCategoryIndex category_id="64bf9a5e1e435a618d06fb6b" />

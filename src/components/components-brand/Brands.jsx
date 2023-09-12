@@ -23,7 +23,10 @@ function Brands() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component={"section"} maxWidth={"xl"}>
+      <Container
+        component={"section"}
+        maxWidth={"xl"}
+      >
         <CssBaseline />
         <div className="">
           <Swiper
@@ -48,10 +51,10 @@ function Brands() {
               },
             }}
             modules={[Pagination]}
-            className="mySwiper cursor-grab"
+            className="mySwiper cursor-grab "
           >
             {brands.map(({ name, slug }) => (
-              <SwiperSlide className={`text-center`}>
+              <SwiperSlide key={slug} className={`text-center`}>
                 <h1 className={`text-slate-300 text-6xl`}>{slug}</h1>
                 <span className={`text-lg font-bold`}>{name}</span>
               </SwiperSlide>

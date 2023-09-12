@@ -28,13 +28,21 @@ import {
   products,
 } from "../../store/ViewProductHome";
 import CategoryNav from "../MobileComponents/CategoryNav";
-import { filterCategory, filterCategoryData } from "../../store/FiltersStore";
+import {
+  filterCategory,
+  filterCategoryData,
+  filterPriceData,
+  filterRatingData,
+} from "../../store/FiltersStore";
 import { EGP, normalNumber } from "./../components-products/FormatPrice";
 import NotFoundProducts from "../notFound/NotFoundProducts";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { wishlistData } from "../../store/WishlistStore";
 import Footer from "../layout/Footer";
+import Copyright from "../Copyright";
+import FilterPrice from "./Filters/FilterPrice";
+import FilterRatings from "./Filters/FilterRatings";
 
 const defaultTheme = createTheme();
 
@@ -47,7 +55,8 @@ function ProductsIndex() {
 
   const copyHandleNamberPagination = productsState;
 
-  const [filterCategoryState] = useRecoilState(filterCategory);
+  const [filterCategoryState, setfilterCategoryState] =
+    useRecoilState(filterCategory);
   const [, setwishlistDataStore] = useRecoilState(wishlistData);
 
   const [categoryNew, setcategoryNew] = useRecoilState(filterCategoryData);
@@ -221,6 +230,8 @@ function ProductsIndex() {
 
   const [filterCategoryDataState, settfilterCategoryState] =
     useRecoilState(filterCategoryData);
+  const [filterPriceDataState, setfilterPriceDataState] =
+    useRecoilState(filterPriceData);
 
   const [mainProductsData] = useRecoilState(mainProductsState);
 
@@ -239,6 +250,8 @@ function ProductsIndex() {
     // setPage(value);
     getProducts(value);
   };
+  const [filterRatingDataStore, setfilterRatingDataStore] =
+    useRecoilState(filterRatingData);
 
   return (
     <ThemeProvider theme={defaultTheme} key={keyReloadWishlist}>
@@ -254,10 +267,12 @@ function ProductsIndex() {
           >
             {breadcrumbs}
           </Breadcrumbs>
-          <div className={`grid sm:grid-cols-3 grid-cols-1 `}>
+          <div className={`grid sm:grid-cols-3 grid-cols-1 gap-3`}>
             {/* filters */}
             <div className={`hidden sm:block w-fit `}>
               <FilterCategory />
+              <FilterPrice />
+              <FilterRatings />
             </div>
             {/* products */}
             <div className={` flex flex-col gap-2 col-span-2`}>
@@ -267,16 +282,41 @@ function ProductsIndex() {
                     className={`border-solid border-2 border-sky-500   rounded-lg w-fit px-3 py-1 bg-[#FFF] `}
                   >
                     {filterCategoryDataState.name}
-                    <button
-                      onClick={() => {
-                        settfilterCategoryState("");
-                        setProducts(mainProductsData);
-                      }}
-                    >
-                      <CloseIcon />
-                    </button>
                   </div>
                 )}
+                {filterPriceDataState?.min && (
+                  <div
+                    className={`border-solid border-2 border-sky-500   rounded-lg w-fit px-3 py-1 bg-[#FFF] `}
+                  >
+                    {EGP.format(filterPriceDataState.min)} :{" "}
+                    {EGP.format(filterPriceDataState.max)}
+                  </div>
+                )}
+                {filterRatingDataStore?.min && (
+                  <div
+                    className={`border-solid border-2 border-sky-500   rounded-lg w-fit px-3 py-1 bg-[#FFF] `}
+                  >
+                    {filterRatingDataStore.min} : {filterRatingDataStore.max}{" "}
+                    ⭐️
+                  </div>
+                )}
+                {filterCategoryDataState?.name ||
+                filterPriceDataState?.min ||
+                filterRatingDataStore?.min ? (
+                  <button
+                    className={`bg-red-200  p-1 rounded-lg`}
+                    onClick={() => {
+                      settfilterCategoryState("");
+                      setProducts(mainProductsData);
+                      setfilterCategoryState("");
+                      setfilterPriceDataState({});
+                      setfilterRatingDataStore({});
+                    }}
+                  >
+                    Clear
+                    <CloseIcon />
+                  </button>
+                ) : null}
               </div>
               {/* style view && Header */}
               <div
@@ -322,7 +362,7 @@ function ProductsIndex() {
                         <div className={`flex items-center gap-5 `} key={_id}>
                           {/* Image Product */}
                           <img
-                            className={`w-44 rounded-sm`}
+                            className={`sm:w-44 w-32 rounded-sm `}
                             src={imageCover}
                             alt={title}
                           />
@@ -330,7 +370,7 @@ function ProductsIndex() {
                           <div className={`flex flex-col gap-1`}>
                             <div className={`flex justify-between`}>
                               <h1
-                                className={`text-[#1C1C1C] text-base font-medium`}
+                                className={`text-[#1C1C1C] text-base font-medium mx-2`}
                               >
                                 {title}
                               </h1>
@@ -357,8 +397,8 @@ function ProductsIndex() {
                               </div>
                             )}
                             {/* ratings */}
-                            <div className={`flex items-center gap-5`}>
-                              <div className={`flex items-center gap-1`}>
+                            <div className={`flex flex-wrap items-center gap-5`}>
+                              <div className={`flex items-center gap-1 `}>
                                 <Rating
                                   name="read-only"
                                   value={ratingsAverage}
@@ -370,23 +410,23 @@ function ProductsIndex() {
                                   {ratingsAverage}
                                 </span>
                               </div>
-                              {dot()}
-                              <div>
+                              <div className={`hidden sm:block`}>
+                                {dot()}
                                 <span
                                   className={`text-[#8B96A5] text-base font-normal`}
                                 >
                                   {sold}&#160; orders
                                 </span>
+                                {dot()}
                               </div>
-                              {dot()}
 
-                              <div>
+                              <div className={` hidden sm:block`}>
                                 {quantity}&#160;
                                 <StoreIcon />
+                                {dot()}
                               </div>
-                              {dot()}
                               <div
-                                className={`text-[#00B517] text-base font-normal`}
+                                className={`text-[#00B517] text-base font-normal hidden sm:block`}
                               >
                                 free
                               </div>
@@ -410,7 +450,7 @@ function ProductsIndex() {
                 </div>
               ) : (
                 <div
-                  className={`flex  flex-wrap justify-start gap-4 rounded-md bg-[#FFF] border-2-[#DEE2E7] p-3`}
+                  className={`flex  flex-wrap justify-center gap-4 rounded-md bg-[#FFF] border-2-[#DEE2E7] p-3`}
                 >
                   {/* single product */}
                   {productsState
@@ -435,7 +475,7 @@ function ProductsIndex() {
                         >
                           {/* Image Product */}
                           <img
-                            className={`w-40 rounded-lg`}
+                            className={`w-56 rounded-lg`}
                             src={imageCover}
                             alt={title}
                           />
@@ -516,6 +556,7 @@ function ProductsIndex() {
         </div>
       </Container>
       <Footer />
+      <Copyright />
     </ThemeProvider>
   );
 }

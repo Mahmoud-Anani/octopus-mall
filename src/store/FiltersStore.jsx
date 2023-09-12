@@ -10,8 +10,22 @@ const filterCategoryData = atom({
   key: "filterCategoryData",
   default: "",
 });
+const filterPriceData = atom({
+  key: "filterPriceData",
+  default: {},
+});
+
+const filterRatingData = atom({
+  key: "filterRatingData",
+  default: {},
+});
 
 // all filters
 
 
-export { filterCategory, filterCategoryData };
+export {
+  filterCategory,
+  filterCategoryData,
+  filterPriceData,
+  filterRatingData,
+};
