@@ -43,7 +43,6 @@ function SingleProducts() {
     await axios
       .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products/${productSlug}`)
       .then((res) => {
-
         setProduct(res.data.data);
         setreviews(res.data.reviews);
         setloading(false);
@@ -183,7 +182,7 @@ function SingleProducts() {
                 </SwiperSlide>
                 {product.images &&
                   product?.images.map((img) => (
-                    <SwiperSlide key={img}>
+                    <SwiperSlide key={img + `${Math.random()}`}>
                       <div className="swiper-zoom-container">
                         <img src={img} />
                       </div>
@@ -324,7 +323,7 @@ function SingleProducts() {
                       <div className="text-[#505050] text-base font-normal">
                         {colors.map((singleColor) => (
                           <span
-                            key={singleColor}
+                            key={singleColor + `${Math.random()}`}
                             style={{ background: "#" + singleColor }}
                             className={`px-3 py-1 mx-1 rounded-full `}
                           ></span>
@@ -525,6 +524,7 @@ function SingleProducts() {
               <div className={`flex gap-5 `}>
                 {["Description", "Reviews", "Shipping"].map((titleHeade) => (
                   <div
+                    key={titleHeade}
                     className={`flex flex-col hover:border-b-2 hover:border-b-[#0D6EFD] hover:text-[#0D6EFD] p-1 rounded-lg`}
                   >
                     <button
@@ -542,7 +542,9 @@ function SingleProducts() {
                 {contentDescription === "Description" ? (
                   <p>{product.description}</p>
                 ) : contentDescription === "Reviews" ? (
-                  "Reviews"
+                    <div>
+                    
+                    </div>
                 ) : (
                   "null"
                 )}
