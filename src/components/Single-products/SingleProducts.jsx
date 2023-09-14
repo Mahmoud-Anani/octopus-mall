@@ -2,6 +2,20 @@ import React from "react";
 // mui
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline, Rating } from "@mui/material";
+// Reacting
+import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import TextField from "@mui/material/TextField";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import UpdateIcon from "@mui/icons-material/Update";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 // react-router-dom
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -20,6 +34,48 @@ import { useRecoilState } from "recoil";
 import { loadingState } from "../../store/ViewProductHome";
 import { useCookies } from "react-cookie";
 import { wishlistData } from "../../store/WishlistStore";
+import Footer from "../layout/Footer";
+import { toast } from "react-toastify";
+
+// handle Reacting
+const StyledRating = styled(Rating)(({ theme }) => ({
+  "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
+    color: theme.palette.action.disabled,
+  },
+}));
+
+const customIcons = {
+  1: {
+    icon: <SentimentVeryDissatisfiedIcon color="error" />,
+    label: "Very Dissatisfied",
+  },
+  2: {
+    icon: <SentimentDissatisfiedIcon color="error" />,
+    label: "Dissatisfied",
+  },
+  3: {
+    icon: <SentimentSatisfiedIcon color="warning" />,
+    label: "Neutral",
+  },
+  4: {
+    icon: <SentimentSatisfiedAltIcon color="success" />,
+    label: "Satisfied",
+  },
+  5: {
+    icon: <SentimentVerySatisfiedIcon color="success" />,
+    label: "Very Satisfied",
+  },
+};
+
+function IconContainer(props) {
+  const { value, ...other } = props;
+  return <span {...other}>{customIcons[value].icon}</span>;
+}
+
+IconContainer.propTypes = {
+  value: PropTypes.number.isRequired,
+};
+
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -29,7 +85,12 @@ let userImgMain = "";
 
 function SingleProducts() {
   // get user data
-  const [getCookios, setCookios] = useCookies(["token", "slug", "userImg"]);
+  const [getCookios, setCookios] = useCookies([
+    "token",
+    "slug",
+    "userImg",
+    "_id",
+  ]);
 
   const { productSlug } = useParams();
   const [product, setProduct] = React.useState({});
@@ -106,6 +167,87 @@ function SingleProducts() {
     getWishlist();
   }, []);
 
+  const [showReviews, setshowReviews] = React.useState("hide");
+  // Add user logged Review
+  const [handleErrorAddReview, setHandleErrorAddReview] = React.useState("");
+  const [ratingReview, setRatingReview] = React.useState(1);
+  const [textReview, setTextReview] = React.useState("");
+  const handleAddReview = async (e) => {
+    e.preventDefault();
+    if (textReview === "" || textReview.length < 4) {
+      throw setHandleErrorAddReview(
+        "The text of the review should not be less than four letters"
+      );
+    }
+    await axios
+      .post(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews`,
+        {
+          reviewText: textReview,
+          rating: ratingReview,
+          product: product._id,
+        },
+        {
+          headers: { Authorization: cookies.token },
+        }
+      )
+      .then((res) => {
+        setRatingReview(1);
+        setTextReview("");
+        toast.success("A successful addition", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
+
+  // @desc update review by user logged
+  const inputReviewUpdate = React.useRef(null);
+  const [typeInputUpdateReview, settypeInputUpdateReview] =
+    React.useState(true);
+  function handleUpdateReview() {
+    // settypeInputUpdateReview(false)
+    inputReviewUpdate.current.focus();
+  }
+  const [updateTextReview, setUpdateTextreview] = React.useState("");
+  const [updateRatingReview, setUpdateRatingReview] = React.useState(1);
+  const [changedupdateRatingReview, setChangedUpdateRatingReview] =
+    React.useState(false);
+  async function updateReview(e, _id_review) {
+    e.preventDefault();
+    if (updateTextReview === "") {
+      throw setHandleErrorAddReview(
+        "The text of the review should not be less than four letters"
+      );
+    }
+    // console.log(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews/${_id_review}`);
+    // console.log(`cookies.token`, cookies.token);
+    await axios
+      .put(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews/${_id_review}`, {
+        headers: { Authorization: cookies.token },
+      })
+      .then((res) => {
+        setChangedUpdateRatingReview(true);
+        setUpdateTextreview('');
+        toast.success("successful edit", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  }
+
   if (loading) {
     return (
       <div className="h-full my-5">
@@ -140,7 +282,7 @@ function SingleProducts() {
           >
             {/* Images */}
             <div
-              className={`w-[${sizeImage}] mx-auto cursor-zoom-in  overflow-hidden`}
+              className={`w-[70%] sizeImage mx-auto cursor-zoom-in  overflow-hidden`}
             >
               <div className="mb-2">
                 <button
@@ -542,9 +684,253 @@ function SingleProducts() {
                 {contentDescription === "Description" ? (
                   <p>{product.description}</p>
                 ) : contentDescription === "Reviews" ? (
-                    <div>
-                    
+                  <div className={`flex flex-col gap-5`}>
+                    {reviews.length < 15
+                      ? reviews.map((review) => {
+                          return getCookios._id !== review.user._id ? (
+                            <div
+                              className={`flex flex-col gap-1 justify-start `}
+                            >
+                              <div key={review._id} className={`flex `}>
+                                <span
+                                  className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                                >
+                                  {review.user.name[0].toUpperCase()}
+                                </span>
+                                <span
+                                  className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                                >
+                                  {review.user.name}
+                                </span>
+                                <Rating
+                                  name="read-only"
+                                  value={review.rating}
+                                  readOnly
+                                />
+                              </div>
+                              <div className={`ms-5 flex gap-5 justify-around`}>
+                                <span
+                                  className={`text-[#2a2929] text-base font-medium`}
+                                >
+                                  {review.reviewText}
+                                </span>
+                                <StyledRating
+                                  className={``}
+                                  name="highlight-selected-only"
+                                  defaultValue={2}
+                                  IconContainerComponent={IconContainer}
+                                  getLabelText={(value) =>
+                                    customIcons[value].label
+                                  }
+                                  highlightSelectedOnly
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              className={`flex flex-col gap-1 justify-start `}
+                            >
+                              <div key={review._id} className={`flex `}>
+                                <span
+                                  className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                                >
+                                  {review.user.name[0].toUpperCase()}
+                                </span>
+                                <span
+                                  className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                                >
+                                  {review.user.name}
+                                </span>
+                                <Rating
+                                  name="read-only"
+                                  value={
+                                    changedupdateRatingReview
+                                      ? updateRatingReview
+                                      : review.rating
+                                  }
+                                  onChange={(e) => {
+                                    setChangedUpdateRatingReview(true);
+                                    setUpdateRatingReview(e.target.value);
+                                  }}
+                                />
+                              </div>
+                              <div
+                                className={`ms-5 flex gap-5  justify-around`}
+                              >
+                                <input
+                                  ref={inputReviewUpdate}
+                                  // disabled={typeInputUpdateReview}
+                                  defaultValue={review.reviewText}
+                                  className={`text-[#2a2929] px-2 rounded-lg text-base font-medium`}
+                                  onChange={(e) =>
+                                    setUpdateTextreview(e.target.value)
+                                  }
+                                />
+                                <div className="flex gap-3">
+                                  {updateTextReview !== "" && (
+                                    <button
+                                      onClick={(e) =>
+                                        updateReview(e, review._id)
+                                      }
+                                      className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
+                                    >
+                                      <UpdateIcon />
+                                    </button>
+                                  )}
+                                  {updateTextReview === "" && (
+                                    <button
+                                      onClick={handleUpdateReview}
+                                      className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
+                                    >
+                                      <EditNoteIcon />
+                                    </button>
+                                  )}
+                                  <button className="p-2 rounded-lg bg-red-200 hover:bg-red-300">
+                                    <DeleteForeverIcon />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      : showReviews === "show"
+                      ? reviews.map((review) => (
+                          <div className={`flex flex-col gap-1 justify-start `}>
+                            <div key={review._id} className={`flex `}>
+                              <span
+                                className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                              >
+                                {review.user.name[0].toUpperCase()}
+                              </span>
+                              <span
+                                className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                              >
+                                {review.user.name}
+                              </span>
+                              <Rating
+                                name="read-only"
+                                value={review.rating}
+                                readOnly
+                              />
+                            </div>
+                            <div className={`ms-5 flex gap-5 justify-around`}>
+                              <span
+                                className={`text-[#2a2929] text-base font-medium`}
+                              >
+                                {review.reviewText}
+                              </span>
+                              <StyledRating
+                                className={``}
+                                name="highlight-selected-only"
+                                defaultValue={2}
+                                IconContainerComponent={IconContainer}
+                                getLabelText={(value) =>
+                                  customIcons[value].label
+                                }
+                                highlightSelectedOnly
+                              />
+                            </div>
+                          </div>
+                        ))
+                      : reviews.slice(0, 4).map((review) => (
+                          <div className={`flex flex-col gap-1 justify-start `}>
+                            <div key={review._id} className={`flex`}>
+                              <span
+                                className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                              >
+                                {review.user.name[0].toUpperCase()}
+                              </span>
+                              <span
+                                className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                              >
+                                {review.user.name}
+                              </span>
+                              <Rating
+                                name="read-only"
+                                value={review.rating}
+                                readOnly
+                              />
+                            </div>
+                            <div className={`ms-5 flex gap-5 justify-around`}>
+                              <span
+                                className={`text-[#2a2929] text-base font-medium`}
+                              >
+                                {review.reviewText}
+                              </span>
+                              <StyledRating
+                                className={``}
+                                name="highlight-selected-only"
+                                defaultValue={2}
+                                IconContainerComponent={IconContainer}
+                                getLabelText={(value) =>
+                                  customIcons[value].label
+                                }
+                                highlightSelectedOnly
+                              />
+                            </div>
+                          </div>
+                        ))}
+                    {reviews.length > 15 && (
+                      <button
+                        onClick={() => {
+                          if (showReviews === "hide") {
+                            setshowReviews("show");
+                          } else {
+                            setshowReviews("hide");
+                          }
+                        }}
+                        className="flex justify-around bg-slate-200 hover:bg-slate-300 rounded-lg"
+                      >
+                        <span className={`text-start `}>
+                          {showReviews} all reviews
+                        </span>
+                        {showReviews === "hide" ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
+                      </button>
+                    )}
+                    {/* Add user logged review */}
+                    {cookies.token !== undefined && (
+                      <div className={`flex gap-4`}>
+                        <TextField
+                          id="outlined-multiline-static"
+                          label="Multiline"
+                          multiline
+                          rows={4}
+                          onChange={(e) => {
+                            setTextReview(e.target.value);
+                            setHandleErrorAddReview("");
+                          }}
+                        />
+                        <div className={`flex flex-col justify-around`}>
+                          <Rating
+                            name="simple-controlled"
+                            value={ratingReview}
+                            onChange={(event, newValue) => {
+                              setRatingReview(newValue);
+                              setHandleErrorAddReview("");
+                            }}
+                          />
+                          <button
+                            onClick={handleAddReview}
+                            type={`submit`}
+                            className={`bg-[#0D6EFD] text-white p-1 rounded-lg`}
+                          >
+                            Add Review
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    <div
+                      className={`bg-red-200 ${
+                        handleErrorAddReview !== "" && "p-2"
+                      } rounded-lg text-center`}
+                    >
+                      {handleErrorAddReview}
                     </div>
+                  </div>
                 ) : (
                   "null"
                 )}
@@ -606,6 +992,7 @@ function SingleProducts() {
           </div>
         </div>
       </Container>
+      <Footer />
     </ThemeProvider>
   );
 }
