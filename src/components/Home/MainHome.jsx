@@ -175,7 +175,7 @@ function MainHome() {
                   </Link>
                   <Link
                     className={`rounded-lg px-5 py-2  bg-[#FFF] border-1 border-[#DEE2E7] text-[#0D6EFD] text-center`}
-                    to={"auth/sign-in"}
+                    to={"/auth/sign-in"}
                   >
                     Log in
                   </Link>

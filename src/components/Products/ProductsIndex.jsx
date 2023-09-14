@@ -47,7 +47,7 @@ import RouteComponent from "../RouteComponent";
 
 const defaultTheme = createTheme();
 
-const dot = () => (
+export const dot = () => (
   <FiberManualRecordIcon className={`text-[#DEE2E7] p-1 border-1`} />
 );
 
@@ -73,8 +73,6 @@ function ProductsIndex() {
   React.useEffect(() => {
     getSingleCategory();
   }, [filterCategoryState]);
-
-
 
   const [styleView, setStyleView] = React.useState("col");
 
@@ -166,7 +164,7 @@ function ProductsIndex() {
       .then((res) => {
         setwishlistDataStore(res.data.data.wishlist);
         setWishlistIds(res.data.data.wishlist);
-      });
+      }).catch(err=>null)
   };
   // console.log("wishisIds", wishisIds);
 
@@ -244,7 +242,7 @@ function ProductsIndex() {
         <CssBaseline />
         <div className="flex flex-col gap-5">
           {/* Route Now */}
-    <RouteComponent />
+          <RouteComponent />
           <div className={`grid sm:grid-cols-3 grid-cols-1 gap-3`}>
             {/* filters */}
             <div className={`hidden sm:block w-fit `}>
@@ -375,7 +373,9 @@ function ProductsIndex() {
                               </div>
                             )}
                             {/* ratings */}
-                            <div className={`flex flex-wrap items-center gap-5`}>
+                            <div
+                              className={`flex flex-wrap items-center gap-5`}
+                            >
                               <div className={`flex items-center gap-1 `}>
                                 <Rating
                                   name="read-only"

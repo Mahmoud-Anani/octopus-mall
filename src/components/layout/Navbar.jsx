@@ -744,7 +744,7 @@ function Navbar() {
         <CssBaseline />
         <nav
           className={`border-t-2 border-x-0 py-3 text-center hidden  ${
-            loading ? "sm:hidden" : "sm:block"
+            loading ? "md:hidden" : "md:block"
           }  `}
         >
           {/* Links */}

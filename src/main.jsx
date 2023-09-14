@@ -16,6 +16,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import "swiper/css/effect-cube";
+import "swiper/css/zoom";
 
 
 // import "react-alice-carousel/lib/alice-carousel.css";

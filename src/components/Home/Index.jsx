@@ -1,4 +1,5 @@
 import React from "react";
+// silf Components
 import MainHome from "./MainHome";
 import Discounts from "./Discounts";
 import ViewByCategoryIndex from "../ViewByCategory/Indxe";
@@ -8,6 +9,7 @@ import Services from "./Services";
 import SuppliersRegion from "./SuppliersRegion";
 import Copyright from "../Copyright";
 import Footer from "../layout/Footer";
+import Brands from "../components-brand/Brands";
 
 // Needs
 // ========================================= \\
@@ -16,7 +18,7 @@ import Footer from "../layout/Footer";
 // /api/v1/viewCategory
 // ========================================= \\
 
-import Brands from "../components-brand/Brands";
+
 
 function HomeIndex() {
   return (
