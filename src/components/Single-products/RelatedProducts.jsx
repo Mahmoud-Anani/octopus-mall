@@ -29,36 +29,48 @@ function RelatedProducts({ categoryId ,productId}) {
     getRelatedProducts();
   }, []);
 
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component={"section"} maxWidth={"xl"}>
-        <CssBaseline />
-        <div className={`bg-[#FFF] p-5 flex flex-col gap-5 mt-5 rounded-lg border-1`}>
-          <h2 className={`text-[#1C1C1C] text-xl font-semibold`}>
-            Related products
-          </h2>
-          {/* Content Products */}
+  if (productsOfCategory.length <= 0) {
+    return null
+  }
+    return (
+      <ThemeProvider theme={defaultTheme}>
+        <Container component={"section"} maxWidth={"xl"}>
+          <CssBaseline />
           <div
-            className={`grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6`}
+            className={`bg-[#FFF] ${
+              productsOfCategory.length > 0 && "p-5"
+            } flex flex-col gap-5 mt-5 rounded-lg border-1`}
           >
-            {productsOfCategory.slice(0,6).map(({ imgCover, title, price,_id }) => (
-              <div key={_id} className={`flex flex-col gap-3 justify-start`}>
-                <div className={`bg-[#EEE] p-4 rounded-xl`}>
-                  <img className="w-32" src={imgCover} alt={title} />
-                </div>
-                <h4 className={`text-[#505050] text-base font-normal`}>
-                  {title.length > 20 ? `${title.slice(0, 10)}...` : title}
-                </h4>
-                <span className={`text-[#8B96A5] text-base font-normal`}>
-                  {EGP.format(price)}
-                </span>
-              </div>
-            ))}
+            <h2 className={`text-[#1C1C1C] text-xl font-semibold`}>
+              Related products
+            </h2>
+            {/* Content Products */}
+            <div
+              className={`grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6`}
+            >
+              {productsOfCategory
+                .slice(0, 6)
+                .map(({ imgCover, title, price, _id }) => (
+                  <div
+                    key={_id}
+                    className={`flex flex-col gap-3 justify-start`}
+                  >
+                    <div className={`bg-[#EEE] p-4 rounded-xl`}>
+                      <img className="w-32" src={imgCover} alt={title} />
+                    </div>
+                    <h4 className={`text-[#505050] text-base font-normal`}>
+                      {title.length > 20 ? `${title.slice(0, 10)}...` : title}
+                    </h4>
+                    <span className={`text-[#8B96A5] text-base font-normal`}>
+                      {EGP.format(price)}
+                    </span>
+                  </div>
+                ))}
+            </div>
           </div>
-        </div>
-      </Container>
-    </ThemeProvider>
-  );
+        </Container>
+      </ThemeProvider>
+    );
 }
 
 export default RelatedProducts;
