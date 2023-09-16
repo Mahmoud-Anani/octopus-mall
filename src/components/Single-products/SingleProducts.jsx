@@ -95,6 +95,7 @@ function SingleProducts() {
   const { productSlug } = useParams();
   const [product, setProduct] = React.useState({});
   const [reviews, setreviews] = React.useState([]);
+  const [userLoggedHaveReview, setuserLoggedHaveReview] = React.useState(false);
   const [loading, setloading] = React.useState(true);
 
   const [colors, setcolors] = React.useState([]);
@@ -107,6 +108,8 @@ function SingleProducts() {
         setProduct(res.data.data);
         setreviews(res.data.reviews);
         setloading(false);
+        const checkUserReivew = res.data.reviews.find(review => review.user._id === getCookios._id) // check if user logged have a reivew
+        setuserLoggedHaveReview(checkUserReivew);
         if (res.data.data.color.length > 0) {
           const arrayColors = res.data?.data?.color[0].split(",");
           setcolors(arrayColors);
@@ -194,6 +197,7 @@ function SingleProducts() {
       .then((res) => {
         setRatingReview(1);
         setTextReview("");
+        getSingleProduct();
         toast.success("A successful addition", {
           position: "top-right",
           autoClose: 3000,
@@ -219,7 +223,7 @@ function SingleProducts() {
   const [updateRatingReview, setUpdateRatingReview] = React.useState(1);
   const [changedupdateRatingReview, setChangedUpdateRatingReview] =
     React.useState(false);
-  async function updateReview(e, _id_review) {
+  async function updateReview(e, _id_review, oldRating) {
     e.preventDefault();
     if (updateTextReview === "") {
       throw setHandleErrorAddReview(
@@ -229,13 +233,50 @@ function SingleProducts() {
     // console.log(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews/${_id_review}`);
     // console.log(`cookies.token`, cookies.token);
     await axios
-      .put(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews/${_id_review}`, {
-        headers: { Authorization: cookies.token },
-      })
+      .put(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews/${_id_review}`,
+        {
+          reviewText: updateTextReview,
+          rating: changedupdateRatingReview ? updateRatingReview : oldRating,
+        },
+        {
+          headers: {
+            Authorization: cookies.token,
+          },
+        }
+      )
       .then((res) => {
         setChangedUpdateRatingReview(true);
-        setUpdateTextreview('');
+        setUpdateTextreview("");
+        getSingleProduct();
         toast.success("successful edit", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  }
+
+  // @desc delete review by logged
+  async function handleDeleteReview(e, review_id) {
+    e.preventDefault();
+    await axios
+      .delete(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/reviews/${review_id}`,
+        {
+          headers: {
+            Authorization: cookies.token,
+          },
+        }
+      )
+      .then((res) => {
+        getSingleProduct();
+        toast.success("successful delete", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -689,9 +730,10 @@ function SingleProducts() {
                       ? reviews.map((review) => {
                           return getCookios._id !== review.user._id ? (
                             <div
+                              key={review._id}
                               className={`flex flex-col gap-1 justify-start `}
                             >
-                              <div key={review._id} className={`flex `}>
+                              <div className={`flex `}>
                                 <span
                                   className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
                                 >
@@ -728,9 +770,10 @@ function SingleProducts() {
                             </div>
                           ) : (
                             <div
+                              key={review._id}
                               className={`flex flex-col gap-1 justify-start `}
                             >
-                              <div key={review._id} className={`flex `}>
+                              <div className={`flex `}>
                                 <span
                                   className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
                                 >
@@ -770,7 +813,11 @@ function SingleProducts() {
                                   {updateTextReview !== "" && (
                                     <button
                                       onClick={(e) =>
-                                        updateReview(e, review._id)
+                                        updateReview(
+                                          e,
+                                          review._id,
+                                          review.rating
+                                        )
                                       }
                                       className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
                                     >
@@ -785,7 +832,12 @@ function SingleProducts() {
                                       <EditNoteIcon />
                                     </button>
                                   )}
-                                  <button className="p-2 rounded-lg bg-red-200 hover:bg-red-300">
+                                  <button
+                                    onClick={(e) =>
+                                      handleDeleteReview(e, review._id)
+                                    }
+                                    className="p-2 rounded-lg bg-red-200 hover:bg-red-300"
+                                  >
                                     <DeleteForeverIcon />
                                   </button>
                                 </div>
@@ -794,82 +846,242 @@ function SingleProducts() {
                           );
                         })
                       : showReviews === "show"
-                      ? reviews.map((review) => (
-                          <div className={`flex flex-col gap-1 justify-start `}>
-                            <div key={review._id} className={`flex `}>
-                              <span
-                                className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
-                              >
-                                {review.user.name[0].toUpperCase()}
-                              </span>
-                              <span
-                                className={`text-[#1C1C1C] mx-2 text-base font-normal`}
-                              >
-                                {review.user.name}
-                              </span>
-                              <Rating
-                                name="read-only"
-                                value={review.rating}
-                                readOnly
-                              />
+                      ? reviews.map((review) => {
+                          return getCookios._id !== review.user._id ? (
+                            <div
+                              key={review._id}
+                              className={`flex flex-col gap-1 justify-start `}
+                            >
+                              <div className={`flex `}>
+                                <span
+                                  className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                                >
+                                  {review.user.name[0].toUpperCase()}
+                                </span>
+                                <span
+                                  className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                                >
+                                  {review.user.name}
+                                </span>
+                                <Rating
+                                  name="read-only"
+                                  value={review.rating}
+                                  readOnly
+                                />
+                              </div>
+                              <div className={`ms-5 flex gap-5 justify-around`}>
+                                <span
+                                  className={`text-[#2a2929] text-base font-medium`}
+                                >
+                                  {review.reviewText}
+                                </span>
+                                <StyledRating
+                                  className={``}
+                                  name="highlight-selected-only"
+                                  defaultValue={2}
+                                  IconContainerComponent={IconContainer}
+                                  getLabelText={(value) =>
+                                    customIcons[value].label
+                                  }
+                                  highlightSelectedOnly
+                                />
+                              </div>
                             </div>
-                            <div className={`ms-5 flex gap-5 justify-around`}>
-                              <span
-                                className={`text-[#2a2929] text-base font-medium`}
+                          ) : (
+                            <div
+                              key={review._id}
+                              className={`flex flex-col gap-1 justify-start `}
+                            >
+                              <div className={`flex `}>
+                                <span
+                                  className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                                >
+                                  {review.user.name[0].toUpperCase()}
+                                </span>
+                                <span
+                                  className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                                >
+                                  {review.user.name}
+                                </span>
+                                <Rating
+                                  name="read-only"
+                                  value={
+                                    changedupdateRatingReview
+                                      ? updateRatingReview
+                                      : review.rating
+                                  }
+                                  onChange={(e) => {
+                                    setChangedUpdateRatingReview(true);
+                                    setUpdateRatingReview(e.target.value);
+                                  }}
+                                />
+                              </div>
+                              <div
+                                className={`ms-5 flex gap-5  justify-around`}
                               >
-                                {review.reviewText}
-                              </span>
-                              <StyledRating
-                                className={``}
-                                name="highlight-selected-only"
-                                defaultValue={2}
-                                IconContainerComponent={IconContainer}
-                                getLabelText={(value) =>
-                                  customIcons[value].label
-                                }
-                                highlightSelectedOnly
-                              />
+                                <input
+                                  ref={inputReviewUpdate}
+                                  // disabled={typeInputUpdateReview}
+                                  defaultValue={review.reviewText}
+                                  className={`text-[#2a2929] px-2 rounded-lg text-base font-medium`}
+                                  onChange={(e) =>
+                                    setUpdateTextreview(e.target.value)
+                                  }
+                                />
+                                <div className="flex gap-3">
+                                  {updateTextReview !== "" && (
+                                    <button
+                                      onClick={(e) =>
+                                        updateReview(
+                                          e,
+                                          review._id,
+                                          review.rating
+                                        )
+                                      }
+                                      className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
+                                    >
+                                      <UpdateIcon />
+                                    </button>
+                                  )}
+                                  {updateTextReview === "" && (
+                                    <button
+                                      onClick={handleUpdateReview}
+                                      className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
+                                    >
+                                      <EditNoteIcon />
+                                    </button>
+                                  )}
+                                  <button
+                                    onClick={(e) =>
+                                      handleDeleteReview(e, review._id)
+                                    }
+                                    className="p-2 rounded-lg bg-red-200 hover:bg-red-300"
+                                  >
+                                    <DeleteForeverIcon />
+                                  </button>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        ))
-                      : reviews.slice(0, 4).map((review) => (
-                          <div className={`flex flex-col gap-1 justify-start `}>
-                            <div key={review._id} className={`flex`}>
-                              <span
-                                className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
-                              >
-                                {review.user.name[0].toUpperCase()}
-                              </span>
-                              <span
-                                className={`text-[#1C1C1C] mx-2 text-base font-normal`}
-                              >
-                                {review.user.name}
-                              </span>
-                              <Rating
-                                name="read-only"
-                                value={review.rating}
-                                readOnly
-                              />
+                          );
+                        })
+                      : reviews.slice(0, 4).map((review) => {
+                          return getCookios._id !== review.user._id ? (
+                            <div
+                              key={review._id}
+                              className={`flex flex-col gap-1 justify-start `}
+                            >
+                              <div className={`flex `}>
+                                <span
+                                  className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                                >
+                                  {review.user.name[0].toUpperCase()}
+                                </span>
+                                <span
+                                  className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                                >
+                                  {review.user.name}
+                                </span>
+                                <Rating
+                                  name="read-only"
+                                  value={review.rating}
+                                  readOnly
+                                />
+                              </div>
+                              <div className={`ms-5 flex gap-5 justify-around`}>
+                                <span
+                                  className={`text-[#2a2929] text-base font-medium`}
+                                >
+                                  {review.reviewText}
+                                </span>
+                                <StyledRating
+                                  className={``}
+                                  name="highlight-selected-only"
+                                  defaultValue={2}
+                                  IconContainerComponent={IconContainer}
+                                  getLabelText={(value) =>
+                                    customIcons[value].label
+                                  }
+                                  highlightSelectedOnly
+                                />
+                              </div>
                             </div>
-                            <div className={`ms-5 flex gap-5 justify-around`}>
-                              <span
-                                className={`text-[#2a2929] text-base font-medium`}
+                          ) : (
+                            <div
+                              key={review._id}
+                              className={`flex flex-col gap-1 justify-start `}
+                            >
+                              <div className={`flex `}>
+                                <span
+                                  className={`rounded-lg text-center p-2 bg-[#C6F3F1] text-[#4CA7A7] `}
+                                >
+                                  {review.user.name[0].toUpperCase()}
+                                </span>
+                                <span
+                                  className={`text-[#1C1C1C] mx-2 text-base font-normal`}
+                                >
+                                  {review.user.name}
+                                </span>
+                                <Rating
+                                  name="read-only"
+                                  value={
+                                    changedupdateRatingReview
+                                      ? updateRatingReview
+                                      : review.rating
+                                  }
+                                  onChange={(e) => {
+                                    setChangedUpdateRatingReview(true);
+                                    setUpdateRatingReview(e.target.value);
+                                  }}
+                                />
+                              </div>
+                              <div
+                                className={`ms-5 flex gap-5  justify-around`}
                               >
-                                {review.reviewText}
-                              </span>
-                              <StyledRating
-                                className={``}
-                                name="highlight-selected-only"
-                                defaultValue={2}
-                                IconContainerComponent={IconContainer}
-                                getLabelText={(value) =>
-                                  customIcons[value].label
-                                }
-                                highlightSelectedOnly
-                              />
+                                <input
+                                  ref={inputReviewUpdate}
+                                  // disabled={typeInputUpdateReview}
+                                  defaultValue={review.reviewText}
+                                  className={`text-[#2a2929] px-2 rounded-lg text-base font-medium`}
+                                  onChange={(e) =>
+                                    setUpdateTextreview(e.target.value)
+                                  }
+                                />
+                                <div className="flex gap-3">
+                                  {updateTextReview !== "" && (
+                                    <button
+                                      onClick={(e) =>
+                                        updateReview(
+                                          e,
+                                          review._id,
+                                          review.rating
+                                        )
+                                      }
+                                      className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
+                                    >
+                                      <UpdateIcon />
+                                    </button>
+                                  )}
+                                  {updateTextReview === "" && (
+                                    <button
+                                      onClick={handleUpdateReview}
+                                      className="p-2 rounded-lg bg-[#89769f] hover:bg-[#977cb9]"
+                                    >
+                                      <EditNoteIcon />
+                                    </button>
+                                  )}
+                                  <button
+                                    onClick={(e) =>
+                                      handleDeleteReview(e, review._id)
+                                    }
+                                    className="p-2 rounded-lg bg-red-200 hover:bg-red-300"
+                                  >
+                                    <DeleteForeverIcon />
+                                  </button>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                     {reviews.length > 15 && (
                       <button
                         onClick={() => {
@@ -892,37 +1104,39 @@ function SingleProducts() {
                       </button>
                     )}
                     {/* Add user logged review */}
-                    {cookies.token !== undefined && (
-                      <div className={`flex gap-4`}>
-                        <TextField
-                          id="outlined-multiline-static"
-                          label="Multiline"
-                          multiline
-                          rows={4}
-                          onChange={(e) => {
-                            setTextReview(e.target.value);
-                            setHandleErrorAddReview("");
-                          }}
-                        />
-                        <div className={`flex flex-col justify-around`}>
-                          <Rating
-                            name="simple-controlled"
-                            value={ratingReview}
-                            onChange={(event, newValue) => {
-                              setRatingReview(newValue);
-                              setHandleErrorAddReview("");
-                            }}
-                          />
-                          <button
-                            onClick={handleAddReview}
-                            type={`submit`}
-                            className={`bg-[#0D6EFD] text-white p-1 rounded-lg`}
-                          >
-                            Add Review
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    {cookies.token !== undefined &&
+                      !userLoggedHaveReview && (
+                            <div className={`flex gap-4`}>
+                              <TextField
+                                id="outlined-multiline-static"
+                                label="Text Review"
+                                multiline
+                                rows={4}
+                                onChange={(e) => {
+                                  setTextReview(e.target.value);
+                                  setHandleErrorAddReview("");
+                                }}
+                              />
+                              <div className={`flex flex-col justify-around`}>
+                                <Rating
+                                  name="simple-controlled"
+                                  value={ratingReview}
+                                  onChange={(event, newValue) => {
+                                    setRatingReview(newValue);
+                                    setHandleErrorAddReview("");
+                                  }}
+                                />
+                                <button
+                                  onClick={handleAddReview}
+                                  type={`submit`}
+                                  className={`bg-[#0D6EFD] text-white p-1 rounded-lg`}
+                                >
+                                  Add Review
+                                </button>
+                              </div>
+                            </div>
+                          )
+                      }
                     <div
                       className={`bg-red-200 ${
                         handleErrorAddReview !== "" && "p-2"
