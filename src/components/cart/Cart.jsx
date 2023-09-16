@@ -2,11 +2,10 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 
-
 let fullNameMain = "";
 let userImgMain = "";
 
-function Cart() {
+function Cart({ productId, color = "" }) {
   // get user data
   const [getCookios, setCookios] = useCookies([
     "token",
@@ -14,34 +13,29 @@ function Cart() {
     "userImg",
     "_id",
   ]);
-    
-    
-      const [fullUserName, setfullUserName] = React.useState("");
 
-      React.useEffect(() => {
-        // handle auth user
-        if (getCookios.slug) {
-          const fullUserNameArray = getCookios.slug.split("-");
-          // Change first litter UpperCase
-          setfullUserName(
-            `${
-              fullUserNameArray[0][0].toUpperCase() +
-              fullUserNameArray[0].slice(1)
-            } ${
-              fullUserNameArray[1][0].toUpperCase() +
-              fullUserNameArray[1].slice(1)
-            }`
-          );
-          fullNameMain = `${
-            fullUserNameArray[0][0].toUpperCase() +
-            fullUserNameArray[0].slice(1)
-          } ${
-            fullUserNameArray[1][0].toUpperCase() +
-            fullUserNameArray[1].slice(1)
-          }`;
-          userImgMain = getCookios.userImg?.userImg || "";
-        }
-      }, []);
+  const [fullUserName, setfullUserName] = React.useState("");
+
+  React.useEffect(() => {
+    // handle auth user
+    if (getCookios.slug) {
+      const fullUserNameArray = getCookios.slug.split("-");
+      // Change first litter UpperCase
+      setfullUserName(
+        `${
+          fullUserNameArray[0][0].toUpperCase() + fullUserNameArray[0].slice(1)
+        } ${
+          fullUserNameArray[1][0].toUpperCase() + fullUserNameArray[1].slice(1)
+        }`
+      );
+      fullNameMain = `${
+        fullUserNameArray[0][0].toUpperCase() + fullUserNameArray[0].slice(1)
+      } ${
+        fullUserNameArray[1][0].toUpperCase() + fullUserNameArray[1].slice(1)
+      }`;
+      userImgMain = getCookios.userImg?.userImg || "";
+    }
+  }, []);
   return (
     <div className="mt-5">
       {/* title name */}
@@ -90,8 +84,8 @@ function Cart() {
             <div
               className={`bg-[#FFF] border-2 rounded-lg p-5 flex flex-col gap-2 `}
             >
-              <div className={`flex gap-2 items-center`}>
-                <div className={`mb-2`}>
+              <div className={`flex gap-2 items-center justify-between`}>
+                <div className={`mb-2 flex items-center gap-2`}>
                   {fullNameMain !== "" ? (
                     userImgMain === "" ? (
                       <svg
@@ -165,10 +159,16 @@ function Cart() {
                       </g>
                     </svg>
                   )}
+                  <p className="font-normal text-lg ">
+                    Hi, {`${getCookios.slug} `}
+                  </p>
                 </div>
-                <p className="font-normal text-lg ">
-                  Hi, {`${getCookios.slug} `}
-                </p>
+                {color && (
+                  <button
+                    style={{ background: "#" + color }}
+                    className={`px-3 h-5 py-1 mx-1 rounded-full `}
+                  ></button>
+                )}
               </div>
               <div className={`border-t-2 py-3`}>
                 <div className={`flex items-center gap-1`}>

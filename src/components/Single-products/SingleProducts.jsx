@@ -226,7 +226,7 @@ function SingleProducts() {
   const [updateTextReview, setUpdateTextreview] = React.useState("");
   const [updateRatingReview, setUpdateRatingReview] = React.useState(1);
   const [changedupdateRatingReview, setChangedUpdateRatingReview] =
-    React.useState(false);
+  React.useState(false);
   async function updateReview(e, _id_review, oldRating) {
     e.preventDefault();
     if (updateTextReview === "") {
@@ -292,6 +292,9 @@ function SingleProducts() {
         });
       });
   }
+  
+  // handle Choose Color
+  const [chooseColor, setChooseColor] = React.useState("");
 
   if (loading) {
     return (
@@ -514,18 +517,25 @@ function SingleProducts() {
                       <div className="text-[#505050] text-base font-normal">
                         {colors.map((singleColor) => (
                           <span
+                            onClick={() => setChooseColor(singleColor)}
                             key={singleColor + `${Math.random()}`}
                             style={{ background: "#" + singleColor }}
-                            className={`px-3 py-1 mx-1 rounded-full `}
+                            className={`px-3 cursor-pointer py-1 mx-1 rounded-full `}
                           ></span>
                         ))}
+                        {chooseColor&&<button
+                          onClick={() => setChooseColor("")}
+                          className={`text-xs text-red-400 -rotate-3 ms-2`}
+                        >
+                          remove
+                        </button>}
                       </div>
                     </div>
                   )}
                 </div>
               </div>
               {/* Add Cart */}
-              <Cart />
+              <Cart productId={product._id} color={chooseColor} />
             </div>
           </div>
           {/* End Product */}
