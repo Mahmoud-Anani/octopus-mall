@@ -13,6 +13,7 @@ import {
   storeCategorys,
   keywordSearchState,
 } from "../../store/ViewProductHome";
+import productIcon from "./../../assets/products/product-icon.png"
 // Cookies
 import { useCookies } from "react-cookie";
 // UI Components MUI
@@ -365,7 +366,7 @@ function Navbar() {
                     </ListItem>
                     <ListItem disablePadding>
                       <ListItemButton onClick={() => movePage("/products")}>
-                        <ListItemIcon></ListItemIcon>
+                        <ListItemIcon><img className={`w-7 `} src={productIcon} alt="product icon" /></ListItemIcon>
                         <ListItemText primary="Products" />
                       </ListItemButton>
                     </ListItem>
@@ -549,7 +550,7 @@ function Navbar() {
         {/* Logo */}
         <div className="flex gap-2 items-center ">
           <button
-            className={`sm:hidden block`}
+            className={`md:hidden block`}
             onClick={() => {
               sideShow === "left-0"
                 ? setsideShow("-left-full")

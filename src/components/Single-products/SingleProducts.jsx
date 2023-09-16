@@ -36,6 +36,7 @@ import { useCookies } from "react-cookie";
 import { wishlistData } from "../../store/WishlistStore";
 import Footer from "../layout/Footer";
 import { toast } from "react-toastify";
+import RelatedProducts from "./RelatedProducts";
 
 // handle Reacting
 const StyledRating = styled(Rating)(({ theme }) => ({
@@ -108,7 +109,9 @@ function SingleProducts() {
         setProduct(res.data.data);
         setreviews(res.data.reviews);
         setloading(false);
-        const checkUserReivew = res.data.reviews.find(review => review.user._id === getCookios._id) // check if user logged have a reivew
+        const checkUserReivew = res.data.reviews.find(
+          (review) => review.user._id === getCookios._id
+        ); // check if user logged have a reivew
         setuserLoggedHaveReview(checkUserReivew);
         if (res.data.data.color.length > 0) {
           const arrayColors = res.data?.data?.color[0].split(",");
@@ -1104,39 +1107,37 @@ function SingleProducts() {
                       </button>
                     )}
                     {/* Add user logged review */}
-                    {cookies.token !== undefined &&
-                      !userLoggedHaveReview && (
-                            <div className={`flex gap-4`}>
-                              <TextField
-                                id="outlined-multiline-static"
-                                label="Text Review"
-                                multiline
-                                rows={4}
-                                onChange={(e) => {
-                                  setTextReview(e.target.value);
-                                  setHandleErrorAddReview("");
-                                }}
-                              />
-                              <div className={`flex flex-col justify-around`}>
-                                <Rating
-                                  name="simple-controlled"
-                                  value={ratingReview}
-                                  onChange={(event, newValue) => {
-                                    setRatingReview(newValue);
-                                    setHandleErrorAddReview("");
-                                  }}
-                                />
-                                <button
-                                  onClick={handleAddReview}
-                                  type={`submit`}
-                                  className={`bg-[#0D6EFD] text-white p-1 rounded-lg`}
-                                >
-                                  Add Review
-                                </button>
-                              </div>
-                            </div>
-                          )
-                      }
+                    {cookies.token !== undefined && !userLoggedHaveReview && (
+                      <div className={`flex gap-4`}>
+                        <TextField
+                          id="outlined-multiline-static"
+                          label="Text Review"
+                          multiline
+                          rows={4}
+                          onChange={(e) => {
+                            setTextReview(e.target.value);
+                            setHandleErrorAddReview("");
+                          }}
+                        />
+                        <div className={`flex flex-col justify-around`}>
+                          <Rating
+                            name="simple-controlled"
+                            value={ratingReview}
+                            onChange={(event, newValue) => {
+                              setRatingReview(newValue);
+                              setHandleErrorAddReview("");
+                            }}
+                          />
+                          <button
+                            onClick={handleAddReview}
+                            type={`submit`}
+                            className={`bg-[#0D6EFD] text-white p-1 rounded-lg`}
+                          >
+                            Add Review
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     <div
                       className={`bg-red-200 ${
                         handleErrorAddReview !== "" && "p-2"
@@ -1170,10 +1171,11 @@ function SingleProducts() {
                         imageCover,
                         price,
                         priceAfterDiscount = false,
+                        product,
                       }) => (
                         <Link
                           key={_id}
-                          to={`/favorites`}
+                          to={`/products/${_id}`}
                           className={`flex items-start gap-3 mt-3`}
                         >
                           <img
@@ -1206,6 +1208,7 @@ function SingleProducts() {
           </div>
         </div>
       </Container>
+      <RelatedProducts categoryId={product.category._id}  productId={product._id} />
       <Footer />
     </ThemeProvider>
   );
