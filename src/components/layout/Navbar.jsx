@@ -366,7 +366,7 @@ function Navbar() {
                     </ListItem>
                     <ListItem disablePadding>
                       <ListItemButton onClick={() => movePage("/products")}>
-                        <ListItemIcon><img className={`w-7 `} src={productIcon} alt="product icon" /></ListItemIcon>
+                        <ListItemIcon><img className={`w-7`} src={productIcon} alt="product icon" /></ListItemIcon>
                         <ListItemText primary="Products" />
                       </ListItemButton>
                     </ListItem>
