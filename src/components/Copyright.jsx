@@ -3,6 +3,7 @@ import { Link, Typography } from "@mui/material";
 export default function Copyright(props) {
   return (
     <Typography
+      className="my-3"
       variant="body2"
       color="text.secondary"
       align="center"

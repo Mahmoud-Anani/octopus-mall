@@ -38,6 +38,8 @@ import Footer from "../layout/Footer";
 import { toast } from "react-toastify";
 import RelatedProducts from "./RelatedProducts";
 import Cart from "../cart/Cart";
+import DiscountOf100 from "../ads/DiscountOf100";
+import Copyright from "../Copyright";
 
 // handle Reacting
 const StyledRating = styled(Rating)(({ theme }) => ({
@@ -1043,12 +1045,14 @@ function SingleProducts() {
             )}
           </div>
         </div>
+        <DiscountOf100 />
       </Container>
       <RelatedProducts
         categoryId={product.category._id}
         productId={product._id}
       />
       <Footer />
+      <Copyright />
     </ThemeProvider>
   );
 }
