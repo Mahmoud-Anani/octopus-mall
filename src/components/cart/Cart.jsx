@@ -1,11 +1,16 @@
 import React from "react";
+// Cookies
 import { useCookies } from "react-cookie";
+// Routes
 import { Link } from "react-router-dom";
+// Fetching
+import axios from "axios";
+import { toast } from "react-toastify";
 
 let fullNameMain = "";
 let userImgMain = "";
 
-function Cart({ productId, color = "" }) {
+function Cart({ productId, colorChoose = "any" }) {
   // get user data
   const [getCookios, setCookios] = useCookies([
     "token",
@@ -14,7 +19,7 @@ function Cart({ productId, color = "" }) {
     "_id",
   ]);
 
-  const [fullUserName, setfullUserName] = React.useState("");
+  const [, setfullUserName] = React.useState("");
 
   React.useEffect(() => {
     // handle auth user
@@ -36,6 +41,120 @@ function Cart({ productId, color = "" }) {
       userImgMain = getCookios.userImg?.userImg || "";
     }
   }, []);
+
+  const [silfLoading, setsilfLoading] = React.useState(false);
+
+  // handle cart user logged
+  // 1) add product (productId, color, quantity) in cart user logged
+  const [quantity, setQuantity] = React.useState(1);
+  const [colorGet, setColor] = React.useState(colorChoose);
+  const [typeError, setTypeError] = React.useState("");
+
+  async function addProductToCart() {
+    setTypeError("");
+    setsilfLoading(true);
+    await axios
+      .post(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart`,
+        {
+          productId,
+          color: colorChoose,
+          quantity,
+        },
+        {
+          headers: {
+            Authorization: getCookios.token,
+          },
+        }
+      )
+      .then((res) => {
+        setsilfLoading(false);
+        getUserCart();
+        toast.success(`${res.data.message}`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      })
+      .catch((err) => {
+        setsilfLoading(false);
+        setTypeError(err.response.data.message);
+      });
+  }
+
+  const [cartUserLogged, setCartUserLogged] = React.useState({});
+  const [isProductsInserted, setIsProductsInserted] = React.useState(false);
+  const [userHaveCart, setUserHaveCart] = React.useState(false);
+
+  async function getUserCart() {
+    setTypeError("");
+    setsilfLoading(true);
+    await axios
+      .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart`, {
+        headers: {
+          Authorization: getCookios.token,
+        },
+      })
+      .then((res) => {
+        setsilfLoading(false);
+        setCartUserLogged(res.data.data);
+        const isInserted = res.data.data.cartItems.filter(
+          (item) => item.productId._id === productId
+        );
+        if (isInserted.length > 0) {
+          setIsProductsInserted(true); // product insered
+          setQuantity(isInserted[0].quantity);
+          setColor(isInserted[0].color);
+        }
+      })
+      .catch((err) => {
+        setsilfLoading(false);
+        if (
+          err.response.data.message ===
+          "You don't have a cart, create one with Add any product"
+        ) {
+          setUserHaveCart(false);
+          setTypeError(err.response.data.message);
+        }
+      });
+  }
+
+  async function deleteSingleProduct() {
+    setTypeError("");
+    setsilfLoading(true);
+    await axios
+      .delete(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart/${productId}`, {
+        headers: {
+          Authorization: getCookios.token,
+        },
+      })
+      .then((res) => {
+        setsilfLoading(false);
+        toast.success(`Deleted`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        getUserCart();
+        setIsProductsInserted(false);
+      });
+    return true;
+  }
+
+  React.useEffect(() => {
+    getUserCart();
+  }, [userHaveCart]);
+
   return (
     <div className="mt-5">
       {/* title name */}
@@ -163,9 +282,9 @@ function Cart({ productId, color = "" }) {
                     Hi, {`${getCookios.slug} `}
                   </p>
                 </div>
-                {color && (
+                {colorGet && (
                   <button
-                    style={{ background: "#" + color }}
+                    style={{ background: "#" + colorGet }}
                     className={`px-3 h-5 py-1 mx-1 rounded-full `}
                   ></button>
                 )}
@@ -206,11 +325,80 @@ function Cart({ productId, color = "" }) {
                   </span>
                 </div>
               </div>
-              <button
-                className={`rounded-lg px-5 py-2 bg-gradient-to-l whitespace-nowrap text-[#FFF] from-[#127FFF] to-[#0067FF] text-center`}
+              {isProductsInserted ? (
+                silfLoading ? (
+                  <div className={`flex justify-center `}>
+                    <div className="spinnerProducts">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={`flex flex-col gap-5`}>
+                    <div className={`flex justify-between`}>
+                      <button
+                        className={`text-[#FFF] w-[25%] rounded-lg ${
+                          quantity === 1 ? "bg-red-400" : "bg-gradient-to-l"
+                        } from-[#689ddb] to-[#1a69de]`}
+                        onClick={() => {
+                          setTypeError("");
+                          quantity > 1 && setQuantity(quantity - 1);
+                          quantity === 1 && deleteSingleProduct();
+                        }}
+                      >
+                        {quantity === 1 ? "remove" : "-"}
+                      </button>
+                      <span className={`bg-[#f0efef70] w-[100%] text-center`}>
+                        {quantity}
+                      </span>
+                      <button
+                        className={`text-[#FFF] w-[25%] rounded-lg bg-gradient-to-l from-[#6897cd] to-[#2873e3]`}
+                        onClick={() => {
+                          setQuantity(quantity + 1);
+                          setTypeError("");
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => addProductToCart()}
+                      className={`rounded-lg px-5 py-2 bg-gradient-to-l whitespace-nowrap text-[#FFF] from-[#127FFF] to-[#0067FF] text-center`}
+                    >
+                      Update Qauntity
+                    </button>
+                  </div>
+                )
+              ) : silfLoading ? (
+                <div className={`flex justify-center `}>
+                  <div className="spinnerProducts">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => addProductToCart()}
+                  className={`rounded-lg px-5 py-2 bg-gradient-to-l whitespace-nowrap text-[#FFF] from-[#127FFF] to-[#0067FF] text-center`}
+                >
+                  add to cart
+                </button>
+              )}
+              <div
+                className={`bg-red-200 ${
+                  typeError && "p-2"
+                } mt-5 rounded-lg text-center`}
               >
-                add to cart
-              </button>
+                {typeError}
+              </div>
             </div>
           )}
         </div>
