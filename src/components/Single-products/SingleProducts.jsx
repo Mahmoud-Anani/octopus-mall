@@ -228,7 +228,7 @@ function SingleProducts() {
   const [updateTextReview, setUpdateTextreview] = React.useState("");
   const [updateRatingReview, setUpdateRatingReview] = React.useState(1);
   const [changedupdateRatingReview, setChangedUpdateRatingReview] =
-  React.useState(false);
+    React.useState(false);
   async function updateReview(e, _id_review, oldRating) {
     e.preventDefault();
     if (updateTextReview === "") {
@@ -294,7 +294,7 @@ function SingleProducts() {
         });
       });
   }
-  
+
   // handle Choose Color
   const [chooseColor, setChooseColor] = React.useState("");
 
@@ -525,12 +525,14 @@ function SingleProducts() {
                             className={`px-3 cursor-pointer py-1 mx-1 rounded-full `}
                           ></span>
                         ))}
-                        {chooseColor&&<button
-                          onClick={() => setChooseColor("")}
-                          className={`text-xs text-red-400 -rotate-3 ms-2`}
-                        >
-                          remove
-                        </button>}
+                        {chooseColor && (
+                          <button
+                            onClick={() => setChooseColor("")}
+                            className={`text-xs text-red-400 -rotate-3 ms-2`}
+                          >
+                            remove
+                          </button>
+                        )}
                       </div>
                     </div>
                   )}
@@ -1048,7 +1050,7 @@ function SingleProducts() {
         <DiscountOf100 />
       </Container>
       <RelatedProducts
-        categoryId={product.category._id}
+        categoryId={product.category?._id || "64bf9a461e435a618d06fbs57"}
         productId={product._id}
       />
       <Footer />

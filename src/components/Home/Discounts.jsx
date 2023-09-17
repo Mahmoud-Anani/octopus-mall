@@ -1,14 +1,17 @@
 import React from "react";
+// MUI
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline } from "@mui/material";
+// State Mangemant
 import { useRecoilState } from "recoil";
+// Routes
+import { Link } from "react-router-dom";
+// Silf Components
 import {
   mainProductsState,
   producsDicountsState,
   products,
 } from "../../store/ViewProductHome";
-import { Link } from "react-router-dom";
-
 import notFoundProducts from "./../../assets/products/notFound-Products.gif";
 import NotFoundProducts from "../notFound/NotFoundProducts";
 
@@ -163,7 +166,9 @@ function Discounts() {
                       );
                     }
                   )
-              ) : <NotFoundProducts />}
+              ) : (
+                <NotFoundProducts />
+              )}
             </div>
           </div>
         </div>

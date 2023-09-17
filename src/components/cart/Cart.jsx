@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 // Fetching
 import axios from "axios";
 import { toast } from "react-toastify";
+import ProductLoading from "../Loadings/ProductLoading";
 
 let fullNameMain = "";
 let userImgMain = "";
@@ -86,6 +87,41 @@ function Cart({ productId, colorChoose = "any" }) {
         setTypeError(err.response.data.message);
       });
   }
+  async function updateProductToCart() {
+    setTypeError("");
+    setsilfLoading(true);
+    await axios
+      .put(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart/${productId}`,
+        {
+          color: colorChoose,
+          quantity,
+        },
+        {
+          headers: {
+            Authorization: getCookios.token,
+          },
+        }
+      )
+      .then((res) => {
+        setsilfLoading(false);
+        getUserCart();
+        toast.success(`${res.data.message}`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      })
+      .catch((err) => {
+        setsilfLoading(false);
+        setTypeError(err.response.data.message);
+      });
+  }
 
   const [cartUserLogged, setCartUserLogged] = React.useState({});
   const [isProductsInserted, setIsProductsInserted] = React.useState(false);
@@ -119,7 +155,7 @@ function Cart({ productId, colorChoose = "any" }) {
           "You don't have a cart, create one with Add any product"
         ) {
           setUserHaveCart(false);
-          setTypeError(err.response.data.message);
+          // setTypeError(err.response.data.message);
         }
       });
   }
@@ -328,14 +364,7 @@ function Cart({ productId, colorChoose = "any" }) {
               {isProductsInserted ? (
                 silfLoading ? (
                   <div className={`flex justify-center `}>
-                    <div className="spinnerProducts">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                    </div>
+                    {<ProductLoading />}
                   </div>
                 ) : (
                   <div className={`flex flex-col gap-5`}>
@@ -366,7 +395,7 @@ function Cart({ productId, colorChoose = "any" }) {
                       </button>
                     </div>
                     <button
-                      onClick={() => addProductToCart()}
+                      onClick={() => updateProductToCart()}
                       className={`rounded-lg px-5 py-2 bg-gradient-to-l whitespace-nowrap text-[#FFF] from-[#127FFF] to-[#0067FF] text-center`}
                     >
                       Update Qauntity
@@ -375,14 +404,7 @@ function Cart({ productId, colorChoose = "any" }) {
                 )
               ) : silfLoading ? (
                 <div className={`flex justify-center `}>
-                  <div className="spinnerProducts">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
+                  {<ProductLoading />}
                 </div>
               ) : (
                 <button
