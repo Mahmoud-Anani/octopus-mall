@@ -9,6 +9,10 @@ import ProductLoading from "../Loadings/ProductLoading";
 import { EGP } from "../components-products/FormatPrice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import RestPageCart from "./RestPageCart";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const boxShadow = {
   boxShadow: "0px 1px 2px 0px rgba(56, 56, 56, 0.08)",
@@ -28,7 +32,8 @@ function CartItems() {
     "userImg",
     "_id",
   ]);
-
+  // Controle View Items
+  const [controleViewItems, setControleViewItems] = React.useState(3);
   // handle data cart
   const [cartUserLogged, setCartUserLogged] = React.useState({});
   const [count_products, setcount_products] = React.useState(0);
@@ -109,19 +114,144 @@ function CartItems() {
       });
   }
 
+  // هنرجع لها
   async function checkOut() {
-    await axios.post(
-      `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/order/card`,
-      {},
-      {
+    await axios
+      .post(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/order/card`,
+        {},
+        {
+          headers: {
+            Authorization: getCookios.token,
+          },
+        }
+      )
+      .then((res) => {
+        const session = res.data.session;
+        window.location.href = session.url;
+      });
+  }
+
+  // Delete Product For My Cart
+  async function deleteProductForCart(productId) {
+    await axios
+      .delete(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart/${productId}`, {
         headers: {
           Authorization: getCookios.token,
         },
-      }
-    ).then(res => {
-      const session = res.data.session;
-      window.location.href = session.url;
-    })
+      })
+      .then((res) => {
+        getUserCart();
+        toast.success(`Deleted`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  }
+
+  // Delete and save later (insert this is product in wishlist) Product For My Cart
+  async function deleteProductForCartAndSaveInWishlist(productId) {
+    await axios
+      .delete(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart/${productId}`, {
+        headers: {
+          Authorization: getCookios.token,
+        },
+      })
+      .then(async (res) => {
+        // Save in wishlist
+        await axios.post(
+          `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/wishlist`,
+          {
+            productId,
+          },
+          {
+            headers: {
+              Authorization: getCookios.token,
+            },
+          }
+        );
+
+        getUserCart();
+        toast.success(`Deleted and Save Later`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  }
+
+  // update qauantity
+  // const [quantityState, setQauntity] = React.useState(0);
+  async function updateProductToCart(productId, quantity) {
+    setTypeError("");
+    setsilfLoading(true);
+    await axios
+      .put(
+        `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart/${productId}`,
+        {
+          quantity,
+        },
+        {
+          headers: {
+            Authorization: getCookios.token,
+          },
+        }
+      )
+      .then((res) => {
+        setsilfLoading(false);
+        getUserCart();
+        toast.success(`${res.data.message}`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      })
+      .catch((err) => {
+        setsilfLoading(false);
+        setTypeError(err.response.data.message);
+      });
+  }
+
+  // Clear Items
+  async function clearItems() {
+    setTypeError("");
+    setsilfLoading(true);
+    await axios
+      .delete(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/cart`, {
+        headers: {
+          Authorization: getCookios.token,
+        },
+      })
+      .then((res) => {
+        setsilfLoading(false);
+        getUserCart();
+        toast.success(`Successful emptying`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
   }
 
   React.useEffect(() => {
@@ -144,7 +274,27 @@ function CartItems() {
 
   // if user dont have a cart or not have cartItems
   if (!userHaveCart || cartUserLogged.cartItems.length <= 0) {
-    return null;
+    return (
+      <ThemeProvider theme={defaultTheme}>
+        <Container component={"section"} maxWidth={"xl"}>
+          <CssBaseline />
+          <div className=" ">
+            <div className="p-5 bg-[#F7FAFC] w-full flex flex-col gap-4">
+              <h2 className="text-center text-red-600 drop-shadow-2xl">
+                You don't have a cart, create one with Add any product
+              </h2>
+              <Link
+                className="drop-shadow-2xl border-2 mx-auto px-4 py-2 hover:bg-stone-300 rounded-lg"
+                to={"/products"}
+              >
+                Shop now
+              </Link>
+            </div>
+          </div>
+        </Container>
+        <RestPageCart />
+      </ThemeProvider>
+    );
   }
 
   // if user have cart
@@ -163,65 +313,173 @@ function CartItems() {
               className={`grid grid-cols-1 md:grid-cols-3 gap-5 justify-between `}
             >
               {/* Items */}
-              <div className={`flex flex-col gap-4 mt-5 col-span-2`}>
-                {cartUserLogged.cartItems.map(
-                  ({ productId, quantity, color, price }) => (
-                    <div
-                      key={productId._id}
-                      className={`flex justify-between border-2 gap-4 p-5 rounded-lg bg-[#FFF]`}
-                    >
-                      <div className="flex gap-5">
-                        <Link
-                          to={`/products/${productId._id}`}
-                          className={`bg-[#F7F7F7] border-2 p-3 rounded-lg h-fit`}
-                        >
-                          <img
-                            className={`w-20 `}
-                            src={productId.imageCover}
-                            alt={productId.title}
-                          />
-                        </Link>
-                        {/* Data Product */}
-                        <div className={`flex flex-col gap-1 justify-start`}>
-                          <h3
-                            className={`text-[#1C1C1C] text-base font-medium`}
+              <div
+                className={`flex flex-col  gap-4 mt-5 col-span-2 h-fit bg-[#FFF] rounded-lg border-2`}
+              >
+                {cartUserLogged.cartItems
+                  .slice(0, controleViewItems)
+                  .map(({ productId, quantity, color, price }) => {
+                    // setQauntity(quantity);
+                    let quantityState = quantity;
+                    return (
+                      <div
+                        key={productId._id}
+                        className={`flex flex-wrap justify-between border-t-[1px] mx-3 gap-4 p-5 `}
+                      >
+                        <div className="flex gap-5 flex-wrap  ">
+                          <Link
+                            to={`/products/${productId._id}`}
+                            className={`bg-[#F7F7F7] border-2 mx-auto p-3 rounded-lg h-fit`}
                           >
-                            {productId.title}
-                          </h3>
-                          <p className={`text-[#8B96A5] text-base font-normal`}>
-                            {quantity}
-                          </p>
-                          <p>Color: {color}</p>
-                          <div className={`flex justify-start gap-3`}>
-                            <button
-                              style={boxShadow}
-                              className={`px-2 py-1 rounded-lg hover:bg-slate-100 bg-[#FFF] border-2 `}
+                            <img
+                              className={`w-full max-h-96 sm:w-20 `}
+                              src={productId.imageCover}
+                              alt={productId.title}
+                            />
+                          </Link>
+                          {/* Data Product */}
+                          <div className={`flex flex-col gap-1 justify-start`}>
+                            <h3
+                              className={`text-[#1C1C1C] text-base font-medium`}
                             >
-                              <span
-                                className={`text-[#FA3434] text-xs font-medium `}
+                              {productId.title}
+                            </h3>
+                            <div className="w-full ">
+                              <div className={`flex justify-between w-full`}>
+                                <button
+                                  className={`text-[#FFF] w-[25%] rounded-lg ${
+                                    quantityState === 1
+                                      ? "bg-red-400 w-full"
+                                      : "bg-gradient-to-l"
+                                  } from-[#689ddb] to-[#1a69de]`}
+                                  onClick={() => {
+                                    quantityState -= 1;
+                                    updateProductToCart(
+                                      productId._id,
+                                      quantityState
+                                    );
+                                  }}
+                                >
+                                  {quantityState === 1 ? "remove" : "-"}
+                                </button>
+                                <span
+                                  className={`bg-[#f0efef70] w-[100%] text-center`}
+                                >
+                                  {quantityState}
+                                </span>
+                                <button
+                                  className={`text-[#FFF] w-[25%] rounded-lg bg-gradient-to-l px-3 from-[#6897cd] to-[#2873e3]`}
+                                  onClick={() => {
+                                    quantityState += 1;
+                                    updateProductToCart(
+                                      productId._id,
+                                      quantityState
+                                    );
+                                    setTypeError("");
+                                  }}
+                                >
+                                  +
+                                </button>
+                              </div>
+                              {typeError && (
+                                <div
+                                  className={`${
+                                    typeError && "p-3"
+                                  } bg-red-300 rounded-lg`}
+                                >
+                                  {typeError}
+                                </div>
+                              )}
+                            </div>
+                            <p>Color: {color}</p>
+                            <div className={`flex justify-start gap-3`}>
+                              <button
+                                onClick={() =>
+                                  deleteProductForCart(productId._id)
+                                }
+                                style={boxShadow}
+                                className={`px-2 py-1 rounded-lg hover:bg-slate-100 bg-[#FFF] border-2 `}
                               >
-                                Remove
-                              </span>
-                            </button>
-                            <button
-                              style={boxShadow}
-                              className={`px-2 py-1 rounded-lg hover:bg-slate-100 bg-[#FFF] border-2`}
-                            >
-                              <span
-                                className={`text-[#0D6EFD] text-xs font-medium`}
+                                <span
+                                  className={`text-[#FA3434] text-xs font-medium `}
+                                >
+                                  Remove
+                                </span>
+                              </button>
+                              <button
+                                onClick={() => {
+                                  deleteProductForCartAndSaveInWishlist(
+                                    productId._id
+                                  );
+                                  setTypeError("");
+                                }}
+                                style={boxShadow}
+                                className={`px-2 py-1 rounded-lg hover:bg-slate-100 bg-[#FFF] border-2`}
                               >
-                                Save for later
-                              </span>
-                            </button>
+                                <span
+                                  className={`text-[#0D6EFD] text-xs font-medium`}
+                                >
+                                  Save for later
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
+                        <span
+                          className={`text-[#1C1C1C] text-base font-medium`}
+                        >
+                          {EGP.format(price)}
+                        </span>
                       </div>
-                      <span className={`text-[#1C1C1C] text-base font-medium`}>
-                        {EGP.format(price)}
-                      </span>
-                    </div>
-                  )
-                )}
+                    );
+                  })}
+
+                <div
+                  className={`border-t-2 p-3 flex justify-between rounded-lg `}
+                >
+                  <Link
+                    className={`text-[#FFF] text-base font-medium px-3 py-2 rounded-lg text-center bg-gradient-to-r from-[#127FFF] to-[#0067FF] `}
+                    to={"/products"}
+                  >
+                    <ArrowBackIcon />
+                    <span>Back to shop</span>
+                  </Link>
+                  {cartUserLogged.cartItems.length > 3 && (
+                    <button
+                      onClick={() => {
+                        if (controleViewItems === 3) {
+                          setControleViewItems(cartUserLogged.cartItems.length);
+                        } else {
+                          setControleViewItems(3);
+                        }
+                      }}
+                    >
+                      {controleViewItems === 3 ? (
+                        <React.Fragment>
+                          <span>
+                            View All ({cartUserLogged.cartItems.length})
+                          </span>
+                          <span className="animate-bounce ">
+                            <KeyboardDoubleArrowDownIcon />
+                          </span>
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <span>Hide</span>
+                          <span className="animate-bounce ">
+                            <KeyboardDoubleArrowUpIcon />
+                          </span>
+                        </React.Fragment>
+                      )}
+                    </button>
+                  )}
+                  <button
+                    className={`text-[#0D6EFD] text-base font-medium p-2 border-2 rounded-lg`}
+                    onClick={clearItems}
+                  >
+                    Remove all
+                  </button>
+                </div>
               </div>
               {/* Checkout  */}
               <div className={`flex flex-col gap-3`}>
@@ -426,6 +684,7 @@ function CartItems() {
           </div>
         )}
       </Container>
+      <RestPageCart />
     </ThemeProvider>
   );
 }

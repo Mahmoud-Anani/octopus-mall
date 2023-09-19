@@ -8,10 +8,9 @@ import { Container, CssBaseline } from "@mui/material";
 
 const contentThisService = [
   {
-    img:"https://s3-alpha-sig.figma.com/img/b564/a957/ce3a966c5d76f6c21ddcaeba336dd251?Expires=1694390400&Signature=lKyGRWtRnRasvr5wQZwBWFODE7~67iuq2V8M0XTvshiBaYhmSpwqJoVnOrLsBJWBFOJnvv-I0Eqyed~7DW-ozf6vNBMxH2eXQ6SG5Qzgd4F62MsFogBNDrR6xnKtsAAji4OPyw4czPyG4ACiZMOxbP6tt7bCf3H8M8jFEUrIRvEJK9h8zWPdZCuh1nil75LbEIYPrxQn-YsGrU70OihOHbcEthGWz6XuQK6oL2XrscNTg35RrMTQ5CqyLu3OwNij6Wruwv-prrU5wJm0R4tBk5cOLMXpdWFMdVqCeQlND9wpbldhbVuN4jeyVAKFsSUC0cFvc7ZkcQFq1b3IfSi1~g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-    ,
-    title:"Source from Industry Hubs",
-    icon:
+    img: "https://octopus-shop.onrender.com/1.png",
+    title: "Source from Industry Hubs",
+    icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -24,13 +23,12 @@ const contentThisService = [
           fill="#1C1C1C"
         />
       </svg>
-    },
+    ),
+  },
   {
-       img:
-      "https://s3-alpha-sig.figma.com/img/4b08/c60c/3829236b56ad902eb0d7bc9954d83888?Expires=1694390400&Signature=TGNPUFmlccCEbljqV9RYDt9cV-aRoLXPzcFOCMZtaEylYKsvfu1aXZ-6dstfHeEpqrraMP7nqLBxxMxsr7MN2L9vHh6jIkm6CCUVSulW2PGHdPCfd-mCPRs5POEF-J7Or7J~sQP5ctiDJw4pkKByEaQvSA-~83a70GbifG~ra6EwcNwNVUA-nSkHRgx14gERbMXAXTqf2g6gnV7rtsSJdCUaQJC-UH9BqAgIjVc-ojkettNlhxabuYS8kQjRUwPVjCeuZWDNjPQcXG-aIOQvMoHmHpulSiRqUtZ1yiQOyrE3GhwqnGhg8~0-1PeGiA4uv4gwqqgKOXaAfKYLL3Q32g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-    ,
-    title:"Source from Industry Hubs",
-    icon:
+    img: "https://octopus-shop.onrender.com/2.png",
+    title: "Source from Industry Hubs",
+    icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -44,14 +42,12 @@ const contentThisService = [
         />
         <path d="M15 12H9V14H15V12Z" fill="#1C1C1C" />
       </svg>
-    
- },
+    ),
+  },
   {
-        img:
-      "https://s3-alpha-sig.figma.com/img/b564/a957/ce3a966c5d76f6c21ddcaeba336dd251?Expires=1694390400&Signature=lKyGRWtRnRasvr5wQZwBWFODE7~67iuq2V8M0XTvshiBaYhmSpwqJoVnOrLsBJWBFOJnvv-I0Eqyed~7DW-ozf6vNBMxH2eXQ6SG5Qzgd4F62MsFogBNDrR6xnKtsAAji4OPyw4czPyG4ACiZMOxbP6tt7bCf3H8M8jFEUrIRvEJK9h8zWPdZCuh1nil75LbEIYPrxQn-YsGrU70OihOHbcEthGWz6XuQK6oL2XrscNTg35RrMTQ5CqyLu3OwNij6Wruwv-prrU5wJm0R4tBk5cOLMXpdWFMdVqCeQlND9wpbldhbVuN4jeyVAKFsSUC0cFvc7ZkcQFq1b3IfSi1~g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-    ,
-    title:"Customize Your Products",
-    icon:
+    img: "https://octopus-shop.onrender.com/3.png",
+    title: "Customize Your Products",
+    icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -64,14 +60,12 @@ const contentThisService = [
           fill="#1C1C1C"
         />
       </svg>
-    
+    ),
   },
   {
-        img:
-      "https://s3-alpha-sig.figma.com/img/0c52/058c/7fecb736fb193ed3a0a046668cf87a58?Expires=1694390400&Signature=qSLtKjfKGM4KpC43TZbzwq3YMDxZihOX58KtJ0KPhL3jw0syYbH1xOmzr2PggbprY3jigR2WiFI3irMt~U4NeT-1So-QMnno9UjnScBeDEh8Q0~DQrm4p7pVDtfmurqNM9QPClHSMkj490X0fBZR95MuzUroLnjGh8HBCleZoVz3wSlSfMFCRg9m9nEsP30Pozu0xoin2p~SdGVxcMiqgaaNyGAH91rpgqNZbud-edP7C--t~XIZfHlWxOK87WiB14pkDuAe7z1zt0L~BDl4hRNTujZOUbOONcSPXqnFFPPdTrpyEiKniYsD5YkjXbOR8BoLI9T4VLSpdijcj2bPUg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-    ,
-    title:"Product monitoring and inspection",
-    icon:
+    img: "https://octopus-shop.onrender.com/4.png",
+    title: "Product monitoring and inspection",
+    icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -84,7 +78,7 @@ const contentThisService = [
           fill="#1C1C1C"
         />
       </svg>
-    
+    ),
   },
 ];
 

@@ -13,7 +13,7 @@ function ServicesComponent({ img, title, icon }) {
         <CardMedia
           component="img"
           height="140"
-          className="h-32 opacity-75 hover:opacity-100 duration-200 rounded-t-lg"
+          className="h-32 opacity-80 hover:opacity-100 duration-200 rounded-t-lg"
           image={img}
           alt="green iguana"
         />
