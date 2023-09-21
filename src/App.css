@@ -153,3 +153,16 @@
       transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
    }
 }
+
+
+/* Hover Profile user edit info */
+ .iconNone{
+  display: none !important;
+ }
+ 
+.liHover:hover  .iconNone {
+  display: block !important;
+}
+.liHover *:hover  .iconNone {
+  display: block !important;
+}
