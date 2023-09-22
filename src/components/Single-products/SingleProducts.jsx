@@ -18,7 +18,9 @@ import UpdateIcon from "@mui/icons-material/Update";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 // react-router-dom
 import { Link, useParams } from "react-router-dom";
+// Fetching
 import axios from "axios";
+// Silf Component
 import RouteComponent from "../RouteComponent";
 
 // Import Swiper React components
