@@ -10,7 +10,7 @@ import Footer from "../layout/Footer";
 import axios from "axios";
 // Cookies
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -56,15 +56,17 @@ function Orders() {
   const navigate = useNavigate();
 
   // loading
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   // handle data of orders user
   const [count_orders, setcount_orders] = React.useState(0);
   const [mainData, setMainData] = React.useState([]);
   const [allProductInOrders, setAllProductInOrdersa] = React.useState([]);
 
+  // if user haven't an any orders
+  const [handleErrorsOrders, setHandleErrorsOrders] = React.useState("");
+
   // get all my orders
   async function getOrders() {
-    setLoading(true);
     await axios
       .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/order/me`, {
         headers: {
@@ -80,6 +82,15 @@ function Orders() {
           )
         );
         setLoading(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        if (
+          err.response.data?.message === "You haven't made any request before"
+        ) {
+          setLoading(false);
+          return setHandleErrorsOrders("You haven't made any request before");
+        }
       });
   }
 
@@ -91,8 +102,8 @@ function Orders() {
   }, []);
 
   // tests
-  console.log("allProductInOrders", allProductInOrders);
-  console.log("mainData", mainData);
+  // console.log("allProductInOrders", allProductInOrders);
+  // console.log("mainData", mainData);
 
   if (loading) {
     return (
@@ -115,7 +126,20 @@ function Orders() {
       </div>
     );
   }
-
+  if (handleErrorsOrders) {
+    return (
+      <div className={`flex flex-col text-center py-5`}>
+        <h1 className={`text-red-500 text-lg`}>
+          You don't have any ordering process before. Go now and fill your bag...
+        </h1>
+        <div className={`mt-5`}>
+          <Link className={`bg-green-300 w-fit p-3 rounded-lg hover:bg-green-400 hover:text-white`} to={`/products`}>
+            Products
+          </Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component={"section"} maxWidth={"xl"}>

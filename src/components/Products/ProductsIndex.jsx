@@ -45,6 +45,11 @@ import FilterPrice from "./Filters/FilterPrice";
 import FilterRatings from "./Filters/FilterRatings";
 import RouteComponent from "../RouteComponent";
 
+
+
+const pageSize = 5
+
+
 const defaultTheme = createTheme();
 
 export const dot = () => (
@@ -207,8 +212,9 @@ function ProductsIndex() {
   };
 
   React.useEffect(() => {
-    getWishlist();
-  }, [productsState]);
+     getWishlist();
+     getProducts()
+  }, []);
 
   const [filterCategoryDataState, settfilterCategoryState] =
     useRecoilState(filterCategoryData);
@@ -217,20 +223,26 @@ function ProductsIndex() {
 
   const [mainProductsData] = useRecoilState(mainProductsState);
 
-  const getProducts = async (page) => {
+  const getProducts = async () => {
     // Get products
     return await axios
-      .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?page=${page}`)
+      .get(`${import.meta.env.VITE_DOMAIN_NAME}/api/v1/products?limit=${import.meta.env.VITE_LIMITPRODUCTS}`)
       .then((res) => {
         const data = res.data;
         setProducts(data.data);
       });
   };
 
-  // const [page, setPage] = React.useState(1);
-  const handleChange = (event, value) => {
-    // setPage(value);
-    getProducts(value);
+    // handle pagination
+  const [pagination, setPagination] = React.useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+   const handleChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
   };
   const [filterRatingDataStore, setfilterRatingDataStore] =
     useRecoilState(filterRatingData);
@@ -257,6 +269,7 @@ function ProductsIndex() {
                   <div
                     className={`border-solid border-2 border-sky-500   rounded-lg w-fit px-3 py-1 bg-[#FFF] `}
                   >
+                    {filterCategoryDataState.name}
                     {filterCategoryDataState.name}
                   </div>
                 )}
@@ -321,7 +334,7 @@ function ProductsIndex() {
                 >
                   {/* single product */}
                   {productsState
-                    .slice(0, 5)
+                    .slice(pagination.from, pagination.to)
                     .map(
                       ({
                         _id,
@@ -432,7 +445,7 @@ function ProductsIndex() {
                 >
                   {/* single product */}
                   {productsState
-                    .slice(0, 15)
+                    .slice(pagination.from, pagination.to)
                     .map(
                       ({
                         _id,
@@ -520,7 +533,9 @@ function ProductsIndex() {
               <div className="flex justify-end">
                 <Stack spacing={2}>
                   <Pagination
-                    count={mainProductsData.length / 5}
+                  count={Math.ceil(productsState.length / pageSize)}
+
+                    // count={mainProductsData.length / 5}
                     variant="outlined"
                     shape="rounded"
                     boundaryCount={3}

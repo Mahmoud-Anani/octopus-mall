@@ -47,7 +47,7 @@ function App() {
     <Routes>
       <Route path="*" element={<>404</>} />
       <Route path="/" element={<HomeIndex />} />
-      {/* Auths */}
+      {/* Auth */}
       <Route
         path="/auth/sign-in"
         element={
