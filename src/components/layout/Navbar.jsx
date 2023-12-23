@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -323,9 +323,11 @@ function actionSignOut() {
     setsideShow("left-full");
     return true;
   }
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <nav
+        id="refSideNav"
         className={`${
           loading ? "hidden" : "flex"
         }  items-center  flex-wrap justify-between py-3 gap-5 sticky top-0 z-50 bg-[#FFF] px-5`}
@@ -333,11 +335,11 @@ function actionSignOut() {
         {/* sidbar mubile */}
         {
           <div
-            className={` flex fixed top-0 h-full ${sideShow} ${
+            className={` flex fixed  top-0 overflow-scroll h-[100%]  ${sideShow} ${
               sideShow === "-left-full" && "hidden"
             } z-50 w-full  `}
           >
-            <div className={`w-[80%] bg-[#FFF]`}>
+            <div className={`w-[80%]  bg-[#FFF]`}>
               <Logo />
               {/* Header Sidebar */}
               <div>
@@ -375,7 +377,7 @@ function actionSignOut() {
               <Box
                 sx={{
                   width: "100%",
-                  margin: "0px 1.2rem",
+                  margin: "0px ",
                   bgcolor: "background.paper",
                 }}
               >
@@ -413,7 +415,7 @@ function actionSignOut() {
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                      <ListItemButton onClick={() => movePage("/profile")}>
+                      <ListItemButton onClick={() => movePage("/protofil")}>
                         <ListItemIcon>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -603,7 +605,7 @@ function actionSignOut() {
                   ? setsideShow("-left-full")
                   : setsideShow("left-0");
               }}
-              className={`bg-[#636363] w-[20%]`}
+              className={`bg-[#636363] w-[20%] `}
             ></div>
           </div>
         }
