@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 // Routers
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import SignIn from "./components/auth/signin";
 import SignUp from "./components/auth/Signup";
 import ForgotPassword from "./components/auth/Forgot-Password/ForgotPassword";
@@ -21,6 +21,7 @@ import CartItems from "./components/cart/CartItems";
 import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
 import Footer from "./components/layout/Footer";
+import Category from "./components/Categorys/Category";
 
 function App() {
   const [filterCategoryState] = useRecoilState(filterCategory);
@@ -139,10 +140,37 @@ function App() {
         path="/about"
         element={
           <>
-            <iframe src="https://mahmoud-abdullah-anani.vercel.app/" className={`w-full h-[100vh]`}></iframe>
-            <Footer/>
+            <iframe
+              src="https://mahmoud-abdullah-anani.vercel.app/"
+              className={`w-full h-[100vh]`}
+            ></iframe>
+            <Footer />
           </>
         }
+      />
+      {/* Categories */}
+      <Route
+        path="/categories"
+        element={
+          <div className="bg-[#F7FAFC]">
+            <Category />
+          </div>
+        }
+      />
+      {/* Category */}
+      <Route
+        path="/categories/:category"
+        element={
+          <div className="bg-[#F7FAFC]">
+            <div>test</div>
+            <Link to={"go"}>subcategory</Link>
+          </div>
+        }
+      />
+      {/* Sub Category */}
+      <Route
+        path="/categories/:category/:subcategory"
+        element={<div className="bg-[#F7FAFC]">test2</div>}
       />
     </Routes>
   );
