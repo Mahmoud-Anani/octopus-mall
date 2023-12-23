@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import LocalHospistalIcon from "@mui/icons-material/LocalHospital";
 import Swal from "sweetalert2";
 import Footer from "../layout/Footer";
+import { Rtt } from "@mui/icons-material";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -44,6 +45,7 @@ function Profile() {
         setLoading(false);
       })
       .catch((err) => {
+        console.log(err);
         setErrors(err);
         setLoading(false);
         removeCookies("token");

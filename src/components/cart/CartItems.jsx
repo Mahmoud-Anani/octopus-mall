@@ -272,6 +272,16 @@ function CartItems() {
     getTexes();
   }, []);
 
+  if (silfLoading) {
+    return (
+      <div
+        className={`h-[100vh]  flex justify-center items-center bg-slate-600 `}
+      >
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
   // if user dont have a cart or not have cartItems
   if (!userHaveCart || cartUserLogged.cartItems.length <= 0) {
     return (

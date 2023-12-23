@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 // AXIOS
 import axios from "axios";
@@ -17,7 +17,16 @@ import productIcon from "./../../assets/products/product-icon.png";
 // Cookies
 import { useCookies } from "react-cookie";
 // UI Components MUI
-import { Box, Container, CssBaseline, MenuItem, Select } from "@mui/material";
+// import Modal from "@mui/material/Modal";
+import {
+  Box,
+  Container,
+  CssBaseline,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -29,6 +38,9 @@ import Divider from "@mui/material/Divider";
 import Copyright from "../Copyright";
 import Logo from "../Logo";
 import { filterCategory } from "../../store/FiltersStore";
+
+// FUNC Sign-Out
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -125,6 +137,12 @@ function changeUserIcon() {
 }
 
 function Navbar() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const locationRouter = useLocation();
+
   const [loading, setloading] = useRecoilState(loadingState);
 
   // const [keywordSearch, setKeywordSearch] = React.useState("");
@@ -221,7 +239,25 @@ function Navbar() {
   };
 
   // handle auth user
-  const [getCookios, setCookies] = useCookies(["token", "slug", "userImg"]);
+  const [getCookios, setCookies] = useCookies([
+    "token",
+    "slug",
+    "userImg",
+    "role",
+    "_id",
+  ]);
+  function actionSignOut() {
+    // remove cookie name token
+    setCookies("token", "", { expires: new Date(0), path: "/" });
+    setCookies("role", "", { expires: new Date(0), path: "/" });
+    setCookies("slug", "", {
+      expires: new Date(0),
+      path: "/",
+    });
+    setCookies("userImg", "", { expires: new Date(0), path: "/" });
+    setCookies("_id", "", { expires: new Date(0), path: "/" });
+    navigate("/auth/sign-in");
+  }
   const [fullUserName, setfullUserName] = React.useState("");
   React.useEffect(() => {
     getCategorys();
@@ -729,23 +765,24 @@ function Navbar() {
             <span className={`text-xs`}>Message</span>
           </Link>
           {/* Orders */}
-          {getCookios?.role.toLowerCase() !== "admin".toLowerCase() && (
-            <Link to={"/orders"} className="flex flex-col items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="18"
-                viewBox="0 0 22 18"
-                fill="none"
-              >
-                <path
-                  d="M12.35 17.1302C11.59 17.8202 10.42 17.8202 9.66003 17.1202L9.55003 17.0202C4.30003 12.2702 0.870031 9.16017 1.00003 5.28017C1.06003 3.58017 1.93003 1.95017 3.34003 0.990166C5.98003 -0.809834 9.24003 0.0301659 11 2.09017C12.76 0.0301659 16.02 -0.819834 18.66 0.990166C20.07 1.95017 20.94 3.58017 21 5.28017C21.14 9.16017 17.7 12.2702 12.45 17.0402L12.35 17.1302Z"
-                  fill="#8B96A5"
-                />
-              </svg>
-              <span className={`text-xs`}>Orders</span>
-            </Link>
-          )}
+          {getCookios.role &&
+            getCookios?.role.toLowerCase() !== "admin".toLowerCase() && (
+              <Link to={"/orders"} className="flex flex-col items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="18"
+                  viewBox="0 0 22 18"
+                  fill="none"
+                >
+                  <path
+                    d="M12.35 17.1302C11.59 17.8202 10.42 17.8202 9.66003 17.1202L9.55003 17.0202C4.30003 12.2702 0.870031 9.16017 1.00003 5.28017C1.06003 3.58017 1.93003 1.95017 3.34003 0.990166C5.98003 -0.809834 9.24003 0.0301659 11 2.09017C12.76 0.0301659 16.02 -0.819834 18.66 0.990166C20.07 1.95017 20.94 3.58017 21 5.28017C21.14 9.16017 17.7 12.2702 12.45 17.0402L12.35 17.1302Z"
+                    fill="#8B96A5"
+                  />
+                </svg>
+                <span className={`text-xs`}>Orders</span>
+              </Link>
+            )}
           {/* My cart */}
           <Link to={"/cart"} className="flex flex-col items-center">
             <svg
@@ -788,22 +825,20 @@ function Navbar() {
               { id: 8, name: "Sign-In", route: "/auth/sign-in" },
               { id: 9, name: "Sign-Up", route: "/auth/sign-up" },
             ].map(({ id, route, name }) => {
-              if (
-                name === "Orders" &&
-                getCookios?.role.toLowerCase() === "admin".toLowerCase()
-              ) {
-                return null;
+              if (getCookios.role) {
+                if (
+                  name === "Orders" &&
+                  getCookios?.role.toLowerCase() === "admin".toLowerCase()
+                ) {
+                  return null;
+                }
               }
               if (name === "Sign-In" && getCookios?.token) {
                 return (
                   <button
                     key={id}
                     className={`hover:bg-red-300 p-1 rounded-lg`}
-                    onClick={() => {
-                      // remove cookie name token
-                      setCookies("token", "", { expires: new Date(0) });
-                      navigate("/auth/sign-in");
-                    }}
+                    onClick={handleOpen}
                   >
                     {/* Add Model QA */}
                     Sign-Out
@@ -813,7 +848,8 @@ function Navbar() {
               return (
                 <Link
                   className={`hover:bg-[#d5d5d5c4] p-1 rounded-lg ${
-                    location.href.split("/")[3].toLowerCase() === name.toLowerCase() && "bg-[#d5d5d5c4]"
+                    locationRouter.pathname.toLowerCase() ===
+                      name.toLowerCase() && "bg-[#d5d5d5c4]"
                   }`}
                   key={id}
                   to={route}
@@ -824,6 +860,32 @@ function Navbar() {
             })}
           </div>
         </nav>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div
+            className={`absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg bg-gray-200 p-4`}
+          >
+            <h1 className={`text-xl font-semibold`}>Are you sure you are checking out?</h1>
+            <div className={`mt-10 flex justify-end gap-5`}>
+              <button
+                className={`px-5 bg-red-600 py-2 rounded-lg text-white hover:bg-red-700`}
+                onClick={() => {
+                  handleClose();
+                  actionSignOut();
+                }}
+              >
+                Yes
+              </button>
+              <button className={`px-5 bg-green-500 py-2 rounded-lg text-white hover:bg-green-600`} onClick={handleClose}>
+                No
+              </button>
+            </div>
+          </div>
+        </Modal>
       </Container>
     </ThemeProvider>
   );
