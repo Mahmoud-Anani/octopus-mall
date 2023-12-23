@@ -20,6 +20,7 @@ import SingleProducts from "./components/Single-products/SingleProducts";
 import CartItems from "./components/cart/CartItems";
 import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
+import Footer from "./components/layout/Footer";
 
 function App() {
   const [filterCategoryState] = useRecoilState(filterCategory);
@@ -131,6 +132,16 @@ function App() {
           <div className="bg-[#F7FAFC]">
             <Orders />
           </div>
+        }
+      />
+      {/* About */}
+      <Route
+        path="/about"
+        element={
+          <>
+            <iframe src="https://mahmoud-abdullah-anani.vercel.app/" className={`w-full h-[100vh]`}></iframe>
+            <Footer/>
+          </>
         }
       />
     </Routes>

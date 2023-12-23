@@ -49,7 +49,7 @@ function RecommendedItems() {
             producsTopRivews.slice(0, 10).map((pro) => {
               return (
                 <Link
-                  to={`product/${pro._id}`}
+                  to={`products/${pro._id}`}
                   key={pro._id}
                   className={`border-2 rounded-lg p-3 max-w-xl hover:bg-[#dad8d8] duration-300`}
                 >
