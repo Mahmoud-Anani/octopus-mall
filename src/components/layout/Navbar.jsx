@@ -40,7 +40,7 @@ import Logo from "../Logo";
 import { filterCategory } from "../../store/FiltersStore";
 
 // FUNC Sign-Out
-
+ 
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -246,18 +246,18 @@ function Navbar() {
     "role",
     "_id",
   ]);
-  function actionSignOut() {
-    // remove cookie name token
-    setCookies("token", "", { expires: new Date(0), path: "/" });
-    setCookies("role", "", { expires: new Date(0), path: "/" });
-    setCookies("slug", "", {
-      expires: new Date(0),
-      path: "/",
-    });
-    setCookies("userImg", "", { expires: new Date(0), path: "/" });
-    setCookies("_id", "", { expires: new Date(0), path: "/" });
-    navigate("/auth/sign-in");
-  }
+function actionSignOut() {
+  // remove cookie name token
+  setCookies("token", "", { expires: new Date(0), path: "/" });
+  setCookies("role", "", { expires: new Date(0), path: "/" });
+  setCookies("slug", "", {
+    expires: new Date(0),
+    path: "/",
+  });
+  setCookies("userImg", "", { expires: new Date(0), path: "/" });
+  setCookies("_id", "", { expires: new Date(0), path: "/" });
+  navigate("/auth/sign-in");
+}
   const [fullUserName, setfullUserName] = React.useState("");
   React.useEffect(() => {
     getCategorys();
@@ -731,75 +731,77 @@ function Navbar() {
             />
           </div>
         </Box>
-        <div className={`sm:flex gap-5 mx-auto items-end hidden`}>
-          {/* protofil */}
-          <Link to={"/protofil"} className="flex flex-col items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="19"
-              viewBox="0 0 20 19"
-              fill="none"
-            >
-              <path
-                d="M10 10C12.7625 10 15 7.7625 15 5C15 2.2375 12.7625 0 10 0C7.2375 0 5 2.2375 5 5C5 7.7625 7.2375 10 10 10ZM10 11.5C6.6625 11.5 0 13.175 0 16.5V17.75C0 18.4375 0.5625 19 1.25 19H18.75C19.4375 19 20 18.4375 20 17.75V16.5C20 13.175 13.3375 11.5 10 11.5Z"
-                fill="#8B96A5"
-              />
-            </svg>
-            <span className={`text-xs`}>Profile</span>
-          </Link>
-          {/* Message */}
-          <Link to={"/message"} className="flex flex-col items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <path
-                d="M18 0H2C0.9 0 0.01 0.9 0.01 2L0 20L4 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0ZM5 7H15C15.55 7 16 7.45 16 8C16 8.55 15.55 9 15 9H5C4.45 9 4 8.55 4 8C4 7.45 4.45 7 5 7ZM11 12H5C4.45 12 4 11.55 4 11C4 10.45 4.45 10 5 10H11C11.55 10 12 10.45 12 11C12 11.55 11.55 12 11 12ZM15 6H5C4.45 6 4 5.55 4 5C4 4.45 4.45 4 5 4H15C15.55 4 16 4.45 16 5C16 5.55 15.55 6 15 6Z"
-                fill="#8B96A5"
-              />
-            </svg>
-            <span className={`text-xs`}>Message</span>
-          </Link>
-          {/* Orders */}
-          {getCookios.role &&
-            getCookios?.role.toLowerCase() !== "admin".toLowerCase() && (
-              <Link to={"/orders"} className="flex flex-col items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="18"
-                  viewBox="0 0 22 18"
-                  fill="none"
-                >
-                  <path
-                    d="M12.35 17.1302C11.59 17.8202 10.42 17.8202 9.66003 17.1202L9.55003 17.0202C4.30003 12.2702 0.870031 9.16017 1.00003 5.28017C1.06003 3.58017 1.93003 1.95017 3.34003 0.990166C5.98003 -0.809834 9.24003 0.0301659 11 2.09017C12.76 0.0301659 16.02 -0.819834 18.66 0.990166C20.07 1.95017 20.94 3.58017 21 5.28017C21.14 9.16017 17.7 12.2702 12.45 17.0402L12.35 17.1302Z"
-                    fill="#8B96A5"
-                  />
-                </svg>
-                <span className={`text-xs`}>Orders</span>
-              </Link>
-            )}
-          {/* My cart */}
-          <Link to={"/cart"} className="flex flex-col items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="21"
-              viewBox="0 0 22 21"
-              fill="none"
-            >
-              <path
-                d="M6.29989 16.7997C5.14491 16.7997 4.21043 17.7447 4.21043 18.8997C4.21043 20.0546 5.14491 20.9996 6.29989 20.9996C7.45487 20.9996 8.39985 20.0546 8.39985 18.8997C8.39985 17.7447 7.45487 16.7997 6.29989 16.7997ZM0 1.04998C0 1.62747 0.472492 2.09996 1.04998 2.09996H2.09996L5.8799 10.0693L4.46242 12.6313C3.69593 14.0383 4.70392 15.7497 6.29989 15.7497H17.8497C18.4272 15.7497 18.8997 15.2772 18.8997 14.6997C18.8997 14.1223 18.4272 13.6498 17.8497 13.6498H6.29989L7.45487 11.5498H15.2772C16.0647 11.5498 16.7577 11.1193 17.1147 10.4683L20.8736 3.65394C21.2621 2.96095 20.7581 2.09996 19.9601 2.09996H4.42042L3.71693 0.598489C3.54894 0.230996 3.17094 0 2.77195 0H1.04998C0.472492 0 0 0.472492 0 1.04998ZM16.7997 16.7997C15.6447 16.7997 14.7102 17.7447 14.7102 18.8997C14.7102 20.0546 15.6447 20.9996 16.7997 20.9996C17.9547 20.9996 18.8997 20.0546 18.8997 18.8997C18.8997 17.7447 17.9547 16.7997 16.7997 16.7997Z"
-                fill="#8B96A5"
-              />
-            </svg>
-            <span className={`text-xs`}>My cart</span>
-          </Link>
-        </div>
+        {getCookios.role && (
+          <div className={`sm:flex gap-5 mx-auto items-end hidden`}>
+            {/* protofil */}
+            <Link to={"/protofil"} className="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="19"
+                viewBox="0 0 20 19"
+                fill="none"
+              >
+                <path
+                  d="M10 10C12.7625 10 15 7.7625 15 5C15 2.2375 12.7625 0 10 0C7.2375 0 5 2.2375 5 5C5 7.7625 7.2375 10 10 10ZM10 11.5C6.6625 11.5 0 13.175 0 16.5V17.75C0 18.4375 0.5625 19 1.25 19H18.75C19.4375 19 20 18.4375 20 17.75V16.5C20 13.175 13.3375 11.5 10 11.5Z"
+                  fill="#8B96A5"
+                />
+              </svg>
+              <span className={`text-xs`}>Profile</span>
+            </Link>
+            {/* Message */}
+            <Link to={"/message"} className="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <path
+                  d="M18 0H2C0.9 0 0.01 0.9 0.01 2L0 20L4 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0ZM5 7H15C15.55 7 16 7.45 16 8C16 8.55 15.55 9 15 9H5C4.45 9 4 8.55 4 8C4 7.45 4.45 7 5 7ZM11 12H5C4.45 12 4 11.55 4 11C4 10.45 4.45 10 5 10H11C11.55 10 12 10.45 12 11C12 11.55 11.55 12 11 12ZM15 6H5C4.45 6 4 5.55 4 5C4 4.45 4.45 4 5 4H15C15.55 4 16 4.45 16 5C16 5.55 15.55 6 15 6Z"
+                  fill="#8B96A5"
+                />
+              </svg>
+              <span className={`text-xs`}>Message</span>
+            </Link>
+            {/* Orders */}
+            {getCookios.role &&
+              getCookios?.role.toLowerCase() !== "admin".toLowerCase() && (
+                <Link to={"/orders"} className="flex flex-col items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="18"
+                    viewBox="0 0 22 18"
+                    fill="none"
+                  >
+                    <path
+                      d="M12.35 17.1302C11.59 17.8202 10.42 17.8202 9.66003 17.1202L9.55003 17.0202C4.30003 12.2702 0.870031 9.16017 1.00003 5.28017C1.06003 3.58017 1.93003 1.95017 3.34003 0.990166C5.98003 -0.809834 9.24003 0.0301659 11 2.09017C12.76 0.0301659 16.02 -0.819834 18.66 0.990166C20.07 1.95017 20.94 3.58017 21 5.28017C21.14 9.16017 17.7 12.2702 12.45 17.0402L12.35 17.1302Z"
+                      fill="#8B96A5"
+                    />
+                  </svg>
+                  <span className={`text-xs`}>Orders</span>
+                </Link>
+              )}
+            {/* My cart */}
+            <Link to={"/cart"} className="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="21"
+                viewBox="0 0 22 21"
+                fill="none"
+              >
+                <path
+                  d="M6.29989 16.7997C5.14491 16.7997 4.21043 17.7447 4.21043 18.8997C4.21043 20.0546 5.14491 20.9996 6.29989 20.9996C7.45487 20.9996 8.39985 20.0546 8.39985 18.8997C8.39985 17.7447 7.45487 16.7997 6.29989 16.7997ZM0 1.04998C0 1.62747 0.472492 2.09996 1.04998 2.09996H2.09996L5.8799 10.0693L4.46242 12.6313C3.69593 14.0383 4.70392 15.7497 6.29989 15.7497H17.8497C18.4272 15.7497 18.8997 15.2772 18.8997 14.6997C18.8997 14.1223 18.4272 13.6498 17.8497 13.6498H6.29989L7.45487 11.5498H15.2772C16.0647 11.5498 16.7577 11.1193 17.1147 10.4683L20.8736 3.65394C21.2621 2.96095 20.7581 2.09996 19.9601 2.09996H4.42042L3.71693 0.598489C3.54894 0.230996 3.17094 0 2.77195 0H1.04998C0.472492 0 0 0.472492 0 1.04998ZM16.7997 16.7997C15.6447 16.7997 14.7102 17.7447 14.7102 18.8997C14.7102 20.0546 15.6447 20.9996 16.7997 20.9996C17.9547 20.9996 18.8997 20.0546 18.8997 18.8997C18.8997 17.7447 17.9547 16.7997 16.7997 16.7997Z"
+                  fill="#8B96A5"
+                />
+              </svg>
+              <span className={`text-xs`}>My cart</span>
+            </Link>
+          </div>
+        )}
       </nav>
       <Container
         component={"header"}
@@ -869,7 +871,9 @@ function Navbar() {
           <div
             className={`absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg bg-gray-200 p-4`}
           >
-            <h1 className={`text-xl font-semibold`}>Are you sure you are checking out?</h1>
+            <h1 className={`text-xl font-semibold`}>
+              Are you sure you are checking out?
+            </h1>
             <div className={`mt-10 flex justify-end gap-5`}>
               <button
                 className={`px-5 bg-red-600 py-2 rounded-lg text-white hover:bg-red-700`}
@@ -880,7 +884,10 @@ function Navbar() {
               >
                 Yes
               </button>
-              <button className={`px-5 bg-green-500 py-2 rounded-lg text-white hover:bg-green-600`} onClick={handleClose}>
+              <button
+                className={`px-5 bg-green-500 py-2 rounded-lg text-white hover:bg-green-600`}
+                onClick={handleClose}
+              >
                 No
               </button>
             </div>

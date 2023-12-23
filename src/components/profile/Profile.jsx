@@ -11,18 +11,21 @@ import { toast } from "react-toastify";
 
 // MUI
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Container, CssBaseline } from "@mui/material";
+import { Container, CssBaseline, Modal } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LocalHospistalIcon from "@mui/icons-material/LocalHospital";
 import Swal from "sweetalert2";
 import Footer from "../layout/Footer";
-import { Rtt } from "@mui/icons-material";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 function Profile() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const [getCookies, setCookies, removeCookies] = useCookies(["token"]);
 
   const [userData, setUserData] = React.useState({});
@@ -90,6 +93,7 @@ function Profile() {
   }
 
   // add addresses
+  const [loadingPostAddress, setLoadingPostAddress] = React.useState(false);
   async function addAddress() {
     const { value: alias } = await Swal.fire({
       title: "Enter Alias For The Address",
@@ -143,6 +147,7 @@ function Profile() {
     }
 
     if (alias && details && phone && city && postalCode) {
+      setLoadingPostAddress(true);
       await axios
         .post(
           `${import.meta.env.VITE_DOMAIN_NAME}/api/v1/addresses`,
@@ -160,7 +165,8 @@ function Profile() {
           }
         )
         .then((res) => {
-          toast.success(`Created Adress`, {
+          setLoadingPostAddress(false);
+          toast.success(`Created Address`, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -173,6 +179,7 @@ function Profile() {
           getUserInfo();
         })
         .catch((err) => {
+          setLoadingPostAddress(false);
           toast.error(err.response.data.errors[0].msg, {
             position: "top-right",
             autoClose: 5000,
@@ -228,18 +235,19 @@ function Profile() {
           theme: "light",
         });
         getUserInfo();
-      }).catch(err => {
-          toast.error(err.response.data.errors[0].msg, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
       })
+      .catch((err) => {
+        toast.error(err.response.data.errors[0].msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
   const putChangeEmail = async () =>
     await axios
       .put(
@@ -325,10 +333,18 @@ function Profile() {
     getUserInfo();
   }, []);
 
-  const Logout = () => {
-    removeCookies("token");
-    navigate("/auth/sign-in");
-  };
+function actionSignOut() {
+  // remove cookie name token
+  setCookies("token", "", { expires: new Date(0), path: "/" });
+  setCookies("role", "", { expires: new Date(0), path: "/" });
+  setCookies("slug", "", {
+    expires: new Date(0),
+    path: "/",
+  });
+  setCookies("userImg", "", { expires: new Date(0), path: "/" });
+  setCookies("_id", "", { expires: new Date(0), path: "/" });
+  navigate("/auth/sign-in");
+}
 
   if (loading) {
     return (
@@ -384,10 +400,41 @@ function Profile() {
               </ul>
             </div>
             {/* Button Sign Out */}
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div
+                className={`absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg bg-gray-200 p-4`}
+              >
+                <h1 className={`text-xl font-semibold`}>
+                  Are you sure you are checking out?
+                </h1>
+                <div className={`mt-10 flex justify-end gap-5`}>
+                  <button
+                    className={`px-5 bg-red-600 py-2 rounded-lg text-white hover:bg-red-700`}
+                    onClick={() => {
+                      handleClose();
+                      actionSignOut();
+                    }}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className={`px-5 bg-green-500 py-2 rounded-lg text-white hover:bg-green-600`}
+                    onClick={handleClose}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </Modal>
             <div className={`sm:text-end sm:px-10  `}>
               <button
                 className={`bg-red-500 hover:bg-red-600 p-2 rounded-lg`}
-                onClick={Logout}
+                onClick={handleOpen}
               >
                 Sign Out
               </button>
@@ -466,7 +513,10 @@ function Profile() {
                     />
                   </button>
                 ) : (
-                  <button onClick={putChangeEmail} className={`bg-[#127FFF] p-2 rounded-lg text-white`}>
+                  <button
+                    onClick={putChangeEmail}
+                    className={`bg-[#127FFF] p-2 rounded-lg text-white`}
+                  >
                     Save Change
                   </button>
                 )}
@@ -498,7 +548,10 @@ function Profile() {
                     />
                   </button>
                 ) : (
-                  <button onClick={putChangePhone} className={`bg-[#127FFF] p-2 rounded-lg text-white`}>
+                  <button
+                    onClick={putChangePhone}
+                    className={`bg-[#127FFF] p-2 rounded-lg text-white`}
+                  >
                     Save Change
                   </button>
                 )}
@@ -586,10 +639,16 @@ function Profile() {
                   className="border-2 rounded-xl my-2"
                   onClick={addAddress}
                 >
-                  <LocalHospistalIcon
-                    style={{ fontSize: "3rem" }}
-                    className=" text-[#127FFF]"
-                  />
+                  {loadingPostAddress ? (
+                    <div className={``}>
+                      <span class="loader"></span>
+                    </div>
+                  ) : (
+                    <LocalHospistalIcon
+                      style={{ fontSize: "3rem" }}
+                      className=" text-[#127FFF]"
+                    />
+                  )}
                 </button>
               </div>
             </div>
