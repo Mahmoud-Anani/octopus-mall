@@ -91,7 +91,7 @@ function SingleCategory() {
   }
   return (
     <div className={`mx-4 py-5`}>
-      <div>
+      <div className={`flex flex-col gap-10`}>
         <h1
           className={`mb-5 text-xl font-semibold flex items-center whitespace-nowrap gap-2`}
         >
@@ -117,7 +117,12 @@ function SingleCategory() {
             </h1>
           )}
         </div>
-        <Link to="/categories" className={`px-5 py-2 bg-red-300 rounded-lg hover:bg-red-400`}>Back</Link>
+        <Link
+          to="/categories"
+          className={`px-5 py-2 w-fit bg-red-300 rounded-lg hover:bg-red-400`}
+        >
+          Back
+        </Link>
       </div>
     </div>
   );

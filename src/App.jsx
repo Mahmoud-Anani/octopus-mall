@@ -23,6 +23,7 @@ import Orders from "./components/orders/Orders";
 import Footer from "./components/layout/Footer";
 import Category from "./components/Categorys/Category";
 import SingleCategory from "./components/Categorys/SingleCategory";
+import Wishlist from "./components/Wishlist/Wishlist";
 
 function App() {
   const [filterCategoryState] = useRecoilState(filterCategory);
@@ -172,7 +173,7 @@ function App() {
         path="/favorites"
         element={
           <div className="bg-[#F7FAFC]">
-            Welcome to your whish list
+            <Wishlist />
           </div>
         }
       />
