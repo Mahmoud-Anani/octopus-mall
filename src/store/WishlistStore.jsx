@@ -5,6 +5,10 @@ const wishlistData = atom({
   key: "wishlistData",
   default: [],
 });
+const renderDataState = atom({
+  key: "renderDataState",
+  default: false,
+});
 
 
-export { wishlistData };
+export { wishlistData, renderDataState };

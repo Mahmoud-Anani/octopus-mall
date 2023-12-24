@@ -335,7 +335,7 @@ function actionSignOut() {
         {/* sidbar mubile */}
         {
           <div
-            className={` flex fixed  top-0 overflow-scroll h-[100%]  ${sideShow} ${
+            className={` flex fixed  top-0 overflow-y-scroll h-[100%]  ${sideShow} ${
               sideShow === "-left-full" && "hidden"
             } z-50 w-full  `}
           >
