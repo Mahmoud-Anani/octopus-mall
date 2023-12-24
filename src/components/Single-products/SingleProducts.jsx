@@ -550,7 +550,7 @@ function SingleProducts() {
             <div className={` bg-[#FFF] p-3 rounded-lg col-span-2 border`}>
               {/* headre */}
               <div className={`flex gap-5 `}>
-                {["Description", "Reviews", "Shipping"].map((titleHeade) => (
+                {["Description", "Reviews"].map((titleHeade) => (
                   <div
                     key={titleHeade}
                     className={`flex flex-col hover:border-b-2 hover:border-b-[#0D6EFD] hover:text-[#0D6EFD] p-1 rounded-lg`}

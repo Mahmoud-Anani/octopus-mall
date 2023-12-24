@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { renderDataState } from "../../store/WishlistStore";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { EGP, normalNumber } from "../components-products/FormatPrice";
 
 export default function WishlistUiTable({ dataWishlist }) {
   const [renderData, setRenderData] = useRecoilState(renderDataState);
@@ -417,11 +418,15 @@ export default function WishlistUiTable({ dataWishlist }) {
                         src={row.imageCover}
                       />
                     </TableCell>
-                    <TableCell align="right" className={``} style={{textAlign:"start"}}>
+                    <TableCell
+                      align="right"
+                      className={``}
+                      style={{ textAlign: "start" }}
+                    >
                       {row.description}
                     </TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align="right">{EGP.format(row.price)}</TableCell>
                   </TableRow>
                 );
               })}
