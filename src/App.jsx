@@ -22,6 +22,7 @@ import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
 import Footer from "./components/layout/Footer";
 import Category from "./components/Categorys/Category";
+import SingleCategory from "./components/Categorys/SingleCategory";
 
 function App() {
   const [filterCategoryState] = useRecoilState(filterCategory);
@@ -162,15 +163,18 @@ function App() {
         path="/categories/:category"
         element={
           <div className="bg-[#F7FAFC]">
-            <div>test</div>
-            <Link to={"go"}>subcategory</Link>
+            <SingleCategory />
           </div>
         }
       />
-      {/* Sub Category */}
+      {/* Favorites */}
       <Route
-        path="/categories/:category/:subcategory"
-        element={<div className="bg-[#F7FAFC]">test2</div>}
+        path="/favorites"
+        element={
+          <div className="bg-[#F7FAFC]">
+            Welcome to your whish list
+          </div>
+        }
       />
     </Routes>
   );

@@ -1,8 +1,9 @@
 import React from "react";
 import Footer from "../layout/Footer";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import CategoryUi from "./CategoryUi";
 
+export let dataCategory = [];
 function Category() {
   const [categories, setCategories] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -14,8 +15,9 @@ function Category() {
         }`
       )
       .then(({ data }) => {
-          setLoading(false);
+        setLoading(false);
         setCategories(data.data);
+        dataCategory = data.data;
         // ================ Test ==========
         // console.log(data);
       })
@@ -23,7 +25,6 @@ function Category() {
         console.log(err);
       });
   }
-
   React.useEffect(() => {
     getCategory();
   }, []);
@@ -38,19 +39,21 @@ function Category() {
     );
   }
   return (
-    <>
+    <div className={`mx-4 py-5`}>
+      <h1 className={`mb-5 text-xl font-semibold flex items-center`}>
+        Categories:
+        <hr className={`w-full`} />
+      </h1>
       <div
-        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 mx-4 gap-10`}
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 justify-items-center gap-10`}
       >
         {categories.map(({ _id, name, slug }) => (
-          <Link to={slug} key={_id} className={`bg-red-400`}>
-            Name:{name}
-          </Link>
+          <CategoryUi key={_id} name={name} slug={slug} />
         ))}
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 
